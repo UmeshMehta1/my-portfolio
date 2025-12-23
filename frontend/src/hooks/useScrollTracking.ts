@@ -20,7 +20,7 @@ export function useScrollTracking() {
       }
 
       // Track section views
-      const sections = ['home', 'about', 'skills', 'projects', 'blog', 'contact'];
+      const sections = ['home', 'about', 'skills', 'projects', 'contact'];
       sections.forEach((section) => {
         const element = document.getElementById(section);
         if (element) {
