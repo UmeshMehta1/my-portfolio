@@ -5,7 +5,7 @@ import { useInView } from 'react-intersection-observer';
 
 const stats = [
   { label: 'Students Mentored', value: '150+' },
-  { label: 'Major Projects', value: '4+' },
+  { label: 'Major Projects', value: '5+' },
   { label: 'Years Experience', value: '2+' },
   { label: 'Technologies', value: '15+' },
 ];
@@ -47,6 +47,10 @@ const keyProjects = [
   {
     name: 'UpayaX Home Service',
     description: 'Home service platform connecting customers with service providers',
+  },
+  {
+    name: 'Share Bazar Insights',
+    description: 'Real-time stock market insights platform with live data and technical charts',
   },
 ];
 

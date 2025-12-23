@@ -60,6 +60,17 @@ const projects: Project[] = [
   },
   {
     id: 5,
+    title: 'Share Bazar Insights',
+    description: 'Real-time stock market insights platform with live data, technical charts, and portfolio management.',
+    longDescription: 'A comprehensive stock market analytics platform providing real-time market data, technical charts, portfolio tracking, and market insights. Built with Next.js and TypeScript for the frontend, Node.js backend with PostgreSQL database, and Socket.io for real-time data updates. Features include live market data streaming, interactive technical charts, portfolio management, market news, premium educational content, and advanced analytics. Successfully deployed and serving users with up-to-date financial market information.',
+    technologies: ['Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Socket.io', 'Chart.js', 'Tailwind CSS'],
+    category: 'Full Stack',
+    github: 'https://github.com/UmeshMehta1',
+    live: 'https://sharebazzar.vercel.app',
+    featured: true,
+  },
+  {
+    id: 6,
     title: 'Personal Portfolio Website',
     description: 'Modern portfolio website with real-time visitor tracking and AI-powered features.',
     longDescription: 'This very portfolio website! Built with Next.js 14+ App Router, featuring real-time visitor tracking using Socket.io, AI-powered chatbot using Google Gemini API, resume analyzer, blog summarization, and smooth animations. Includes SEO optimization, dark mode support, responsive design, and API playground for testing backend endpoints.',

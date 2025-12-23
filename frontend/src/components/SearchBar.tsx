@@ -15,9 +15,11 @@ interface SearchItem {
 
 const searchData: SearchItem[] = [
   // Projects
-  { id: '1', title: 'E-Commerce Platform', description: 'Full-stack e-commerce solution', type: 'project', url: '#projects', keywords: ['ecommerce', 'shopping', 'store', 'payment'] },
-  { id: '2', title: 'Task Management App', description: 'Collaborative task management', type: 'project', url: '#projects', keywords: ['task', 'todo', 'collaboration', 'productivity'] },
-  { id: '3', title: 'Analytics Dashboard', description: 'Data visualization dashboard', type: 'project', url: '#projects', keywords: ['analytics', 'dashboard', 'data', 'charts'] },
+  { id: '1', title: 'USA Client CRM System', description: 'Customer Relationship Management platform', type: 'project', url: '#projects', keywords: ['crm', 'customer', 'management', 'sales'] },
+  { id: '2', title: 'Hamrotask Australia', description: 'Task management platform', type: 'project', url: '#projects', keywords: ['task', 'todo', 'collaboration', 'productivity', 'australia'] },
+  { id: '3', title: 'SaaS-Based POS System', description: 'Point of Sale system', type: 'project', url: '#projects', keywords: ['pos', 'point of sale', 'saas', 'retail', 'billing'] },
+  { id: '4', title: 'UpayaX Home Service', description: 'Home service marketplace', type: 'project', url: '#projects', keywords: ['home service', 'marketplace', 'booking', 'services'] },
+  { id: '5', title: 'Share Bazar Insights', description: 'Stock market insights platform', type: 'project', url: '#projects', keywords: ['stock', 'market', 'trading', 'finance', 'charts', 'portfolio'] },
   
   // Skills
   { id: '4', title: 'React', description: 'Frontend framework', type: 'skill', url: '#skills', keywords: ['react', 'frontend', 'javascript', 'ui'] },
