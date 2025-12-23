@@ -22,9 +22,26 @@ let dbConnected = false;
 
 const app = express();
 const server = http.createServer(app);
+
+// CORS configuration for Socket.io - same as Express
+const socketAllowedOrigins = [
+  'https://umeshmehta.me',
+  'https://www.umeshmehta.me',
+  'http://localhost:3000',
+  'http://localhost:3001',
+];
+
+const isVercelPreviewSocket = (origin) => {
+  return origin && (
+    origin.includes('.vercel.app') ||
+    origin.includes('vercel.app')
+  );
+};
+
+// Socket.io CORS - allow all Vercel preview URLs and production domain
 const io = new Server(server, {
   cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: true, // Allow all origins (Socket.io will validate via handshake)
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -33,8 +50,47 @@ const io = new Server(server, {
 // Middleware
 app.use(helmet());
 app.use(compression());
+
+// CORS configuration - allow multiple origins
+const allowedOrigins = [
+  'https://umeshmehta.me',
+  'https://www.umeshmehta.me',
+  'http://localhost:3000',
+  'http://localhost:3001',
+];
+
+// Add Vercel preview URLs pattern
+const isVercelPreview = (origin) => {
+  return origin && (
+    origin.includes('.vercel.app') ||
+    origin.includes('vercel.app')
+  );
+};
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if origin is in allowed list
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    
+    // Check if origin is a Vercel preview URL
+    if (isVercelPreview(origin)) {
+      return callback(null, true);
+    }
+    
+    // Allow if FRONTEND_URL matches
+    const frontendUrl = process.env.FRONTEND_URL;
+    if (frontendUrl && origin === frontendUrl) {
+      return callback(null, true);
+    }
+    
+    // Reject other origins
+    callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
 app.use(express.json());
@@ -82,6 +138,19 @@ const getClientIP = (req) => {
 
 // Socket.io connection handling
 io.on('connection', async (socket) => {
+  // Validate origin for Socket.io connections
+  const origin = socket.handshake.headers.origin;
+  const isAllowedOrigin = !origin || 
+    allowedOrigins.includes(origin) || 
+    isVercelPreview(origin) ||
+    (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL);
+  
+  if (!isAllowedOrigin) {
+    console.warn('Socket.io connection rejected from origin:', origin);
+    socket.disconnect();
+    return;
+  }
+  
   console.log('User connected:', socket.id);
   onlineUsers.add(socket.id);
   
