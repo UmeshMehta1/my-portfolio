@@ -18,26 +18,29 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "Your Name | Full Stack Developer & Creative Problem Solver",
-    template: "%s | Your Name Portfolio",
+    default: "Umesh Mehta | Full Stack Developer & Tech Mentor",
+    template: "%s | Umesh Mehta Portfolio",
   },
   description:
-    "Portfolio of a full stack developer specializing in modern web technologies. Explore my projects, skills, and experience in building scalable applications with React, Next.js, Node.js, and more.",
+    "Full Stack Developer at Digital Pathshala, BCA student at Itahari Nauna College. Building scalable web applications, leading teams, and mentoring 150+ students in MERN stack. Experience with international clients and major projects including USA CRM, Hamrotask Australia, SaaS POS, and UpayaX.",
   keywords: [
+    "Umesh Mehta",
     "full stack developer",
+    "MERN stack",
     "web developer",
     "React developer",
     "Next.js developer",
-    "TypeScript",
-    "Node.js",
+    "project manager",
+    "tech mentor",
+    "BCA student",
+    "Digital Pathshala",
+    "Code for Change",
     "portfolio",
     "software engineer",
-    "frontend developer",
-    "backend developer",
   ],
-  authors: [{ name: "Your Name" }],
-  creator: "Your Name",
-  publisher: "Your Name",
+  authors: [{ name: "Umesh Mehta" }],
+  creator: "Umesh Mehta",
+  publisher: "Umesh Mehta",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   alternates: {
     canonical: "/",
@@ -46,26 +49,26 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "Your Name Portfolio",
-    title: "Your Name | Full Stack Developer",
+    siteName: "Umesh Mehta Portfolio",
+    title: "Umesh Mehta | Full Stack Developer & Tech Mentor",
     description:
-      "Portfolio of a full stack developer specializing in modern web technologies.",
+      "Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications, leading teams, and mentoring 150+ students in MERN stack development.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Your Name Portfolio",
+        alt: "Umesh Mehta Portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Your Name | Full Stack Developer",
+    title: "Umesh Mehta | Full Stack Developer & Tech Mentor",
     description:
-      "Portfolio of a full stack developer specializing in modern web technologies.",
+      "Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications and mentoring 150+ students.",
     images: ["/og-image.jpg"],
-    creator: "@yourusername",
+    creator: "@hello__umesh",
   },
   robots: {
     index: true,
@@ -103,21 +106,34 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Person",
-              name: "Your Name",
+              name: "Umesh Mehta",
               jobTitle: "Full Stack Developer",
+              worksFor: {
+                "@type": "Organization",
+                name: "Digital Pathshala"
+              },
+              alumniOf: {
+                "@type": "EducationalOrganization",
+                name: "Itahari Nauna College"
+              },
               url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
               sameAs: [
-                "https://github.com/yourusername",
-                "https://linkedin.com/in/yourusername",
-                "https://twitter.com/yourusername",
+                "https://www.linkedin.com/in/umeshmehta1245/",
+                "https://www.tiktok.com/@hello__umesh",
+                "https://www.facebook.com/umesh.mehta.980967",
+                "https://github.com/UmeshMehta1",
               ],
               knowsAbout: [
+                "MERN Stack",
                 "JavaScript",
                 "TypeScript",
                 "React",
                 "Next.js",
                 "Node.js",
+                "MongoDB",
                 "Full Stack Development",
+                "Project Management",
+                "Team Leadership",
               ],
             }),
           }}

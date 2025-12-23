@@ -6,9 +6,9 @@ import { useSocket } from './SocketProvider';
 
 const roles = [
   'Full Stack Developer',
-  'Creative Problem Solver',
-  'UI/UX Enthusiast',
-  'Tech Innovator',
+  'Project Manager',
+  'Tech Mentor',
+  'Team Leader',
 ];
 
 export default function Hero() {
@@ -47,7 +47,7 @@ export default function Hero() {
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">
               Hi, I'm{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
-                Your Name
+                Umesh Mehta
               </span>
             </h1>
           </motion.div>

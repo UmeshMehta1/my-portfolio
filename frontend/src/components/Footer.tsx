@@ -12,10 +12,10 @@ export default function Footer() {
   }, []);
 
   const socialLinks = [
-    { name: 'GitHub', href: 'https://github.com/yourusername', icon: 'github' },
-    { name: 'LinkedIn', href: 'https://linkedin.com/in/yourusername', icon: 'linkedin' },
-    { name: 'Twitter', href: 'https://twitter.com/yourusername', icon: 'twitter' },
-    { name: 'Email', href: 'mailto:your.email@example.com', icon: 'email' },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/umeshmehta1245/', icon: 'linkedin' },
+    { name: 'TikTok', href: 'https://www.tiktok.com/@hello__umesh', icon: 'tiktok' },
+    { name: 'Facebook', href: 'https://www.facebook.com/umesh.mehta.980967', icon: 'facebook' },
+    { name: 'GitHub', href: 'https://github.com/UmeshMehta1', icon: 'github' },
   ];
 
   const getIcon = (icon: string) => {
@@ -36,6 +36,18 @@ export default function Footer() {
         return (
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z" />
+          </svg>
+        );
+      case 'tiktok':
+        return (
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z" />
+          </svg>
+        );
+      case 'facebook':
+        return (
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
           </svg>
         );
       case 'email':
@@ -109,7 +121,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-800 pt-8 text-center">
           <p className="text-gray-400">
-            © {currentYear} Your Name. All rights reserved. Built with Next.js and
+            © {currentYear} Umesh Mehta. All rights reserved. Built with Next.js and
             TypeScript.
           </p>
         </div>
