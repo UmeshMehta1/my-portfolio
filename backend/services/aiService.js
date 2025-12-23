@@ -25,11 +25,15 @@ class AIService {
 
     try {
       // Try different models in order of preference
-      // Based on Google's API, gemini-1.5-flash is the most commonly available model
-      // gemini-1.5-pro requires billing and may not be available in v1beta
+      // Based on available models from /api/ai/models endpoint
+      // Model names must include the "models/" prefix
       const models = [
-        'gemini-1.5-flash',      // Most commonly available - should work
-        'gemini-pro',            // Fallback older model
+        'models/gemini-1.5-flash-001',  // Stable version, supports generateContent
+        'models/gemini-1.5-flash-latest', // Latest version
+        'models/gemini-2.0-flash-001',   // Newer stable version
+        'models/gemini-2.0-flash',       // Newer version
+        'models/gemini-flash-latest',    // Latest flash
+        'models/gemini-2.5-flash',       // Latest stable
       ];
       let lastError = null;
 
