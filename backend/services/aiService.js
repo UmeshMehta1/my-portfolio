@@ -36,15 +36,25 @@ class AIService {
           return response.text();
         } catch (error) {
           lastError = error;
+          console.error(`Model ${modelName} failed:`, error.message || error);
+          
           // If it's a model not found error, try next model
-          if (error.message && error.message.includes('not found')) {
+          if (error.message && (error.message.includes('not found') || error.message.includes('404'))) {
+            console.log(`Model ${modelName} not found, trying next model...`);
             continue;
           }
           // If it's an API key/auth error, throw immediately
-          if (error.message && (error.message.includes('API key') || error.message.includes('authentication'))) {
+          if (error.message && (error.message.includes('API key') || error.message.includes('authentication') || error.message.includes('403'))) {
+            console.error('API key authentication error:', error.message);
+            throw error;
+          }
+          // If it's a quota error, throw immediately
+          if (error.message && (error.message.includes('quota') || error.message.includes('rate limit') || error.message.includes('429'))) {
+            console.error('Quota/rate limit error:', error.message);
             throw error;
           }
           // Otherwise try next model
+          console.log(`Model ${modelName} failed with error, trying next model...`);
           continue;
         }
       }

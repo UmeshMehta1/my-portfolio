@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
-// Configure Nodemailer for Gmail
+// Configure Nodemailer for GmailProduction
 const createTransporter = () => {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     console.warn('⚠️ Email configuration not found. Email functionality will be disabled.');

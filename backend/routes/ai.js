@@ -26,17 +26,32 @@ router.post('/chat', async (req, res) => {
     console.error('AI Chat Error:', error);
     const errorMessage = error.message || 'Unknown error occurred';
     
-    // Provide helpful error message if API is not enabled
-    if (errorMessage.includes('not found') || errorMessage.includes('API')) {
+    // Check for specific error types
+    if (errorMessage.includes('not found') || errorMessage.includes('404') || errorMessage.includes('API not enabled')) {
       res.status(500).json({ 
         error: 'AI service not available',
         message: 'Generative Language API is not enabled. Please enable it in Google Cloud Console: https://console.cloud.google.com/apis/library/generativelanguage.googleapis.com',
+        details: errorMessage,
+        solution: '1. Go to Google Cloud Console\n2. Enable Generative Language API\n3. Wait 10-30 seconds\n4. Try again'
+      });
+    } else if (errorMessage.includes('API key') || errorMessage.includes('authentication') || errorMessage.includes('403')) {
+      res.status(500).json({ 
+        error: 'API key authentication failed',
+        message: 'Your API key may be invalid or not have access to the Generative Language API.',
+        details: errorMessage,
+        solution: '1. Verify your API key is correct\n2. Make sure it starts with "AIza..."\3. Check API key permissions in Google Cloud Console'
+      });
+    } else if (errorMessage.includes('quota') || errorMessage.includes('rate limit')) {
+      res.status(500).json({ 
+        error: 'API quota exceeded',
+        message: 'You have exceeded the API quota. Please check your usage limits.',
         details: errorMessage
       });
     } else {
       res.status(500).json({ 
         error: 'Failed to generate response',
-        message: errorMessage
+        message: errorMessage,
+        details: error.stack || errorMessage
       });
     }
   }
