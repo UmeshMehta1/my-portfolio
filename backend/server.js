@@ -42,7 +42,7 @@ const isVercelPreviewSocket = (origin) => {
 const io = new Server(server, {
   cors: {
     origin: true, // Allow all origins (Socket.io will validate via handshake)
-    methods: ['GET', 'POST'],o
+    methods: ['GET', 'POST'],
     credentials: true,
   },
 });
@@ -138,19 +138,6 @@ const getClientIP = (req) => {
 
 // Socket.io connection handling
 io.on('connection', async (socket) => {
-  // Validate origin for Socket.io connections
-  const origin = socket.handshake.headers.origin;
-  const isAllowedOrigin = !origin || 
-    allowedOrigins.includes(origin) || 
-    isVercelPreview(origin) ||
-    (process.env.FRONTEND_URL && origin === process.env.FRONTEND_URL);
-  
-  if (!isAllowedOrigin) {
-    console.warn('Socket.io connection rejected from origin:', origin);
-    socket.disconnect();
-    return;
-  }
-  
   console.log('User connected:', socket.id);
   onlineUsers.add(socket.id);
   
@@ -480,6 +467,10 @@ app.get('/api/email/test-config', (req, res) => {
 // AI routes
 const aiRoutes = require('./routes/ai');
 app.use('/api/ai', aiRoutes);
+
+// Upload routes
+const uploadRoutes = require('./routes/upload');
+app.use('/api/upload', uploadRoutes);
 
 // Start server (only after MongoDB connection is established)
 const PORT = process.env.PORT || 5000;
