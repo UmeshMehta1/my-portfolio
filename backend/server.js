@@ -42,7 +42,7 @@ const isVercelPreviewSocket = (origin) => {
 const io = new Server(server, {
   cors: {
     origin: true, // Allow all origins (Socket.io will validate via handshake)
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST'],o
     credentials: true,
   },
 });
