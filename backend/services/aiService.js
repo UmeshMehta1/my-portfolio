@@ -36,25 +36,37 @@ class AIService {
           return response.text();
         } catch (error) {
           lastError = error;
-          console.error(`Model ${modelName} failed:`, error.message || error);
+          const errorMsg = error.message || String(error);
+          const errorCode = error.code || error.status || '';
           
-          // If it's a model not found error, try next model
-          if (error.message && (error.message.includes('not found') || error.message.includes('404'))) {
-            console.log(`Model ${modelName} not found, trying next model...`);
+          console.error(`Model ${modelName} failed:`, {
+            message: errorMsg,
+            code: errorCode,
+            fullError: error
+          });
+          
+          // If it's a model not found error (404), try next model
+          if (errorCode === 404 || (errorMsg.includes('not found') && errorMsg.includes('model'))) {
+            console.log(`Model ${modelName} not found (404), trying next model...`);
             continue;
           }
-          // If it's an API key/auth error, throw immediately
-          if (error.message && (error.message.includes('API key') || error.message.includes('authentication') || error.message.includes('403'))) {
-            console.error('API key authentication error:', error.message);
+          // If it's an API key/auth error (403), throw immediately
+          if (errorCode === 403 || errorMsg.includes('API key') || errorMsg.includes('authentication') || errorMsg.includes('PERMISSION_DENIED')) {
+            console.error('API key authentication error (403):', errorMsg);
             throw error;
           }
-          // If it's a quota error, throw immediately
-          if (error.message && (error.message.includes('quota') || error.message.includes('rate limit') || error.message.includes('429'))) {
-            console.error('Quota/rate limit error:', error.message);
+          // If it's a quota error (429), throw immediately
+          if (errorCode === 429 || errorMsg.includes('quota') || errorMsg.includes('rate limit') || errorMsg.includes('RESOURCE_EXHAUSTED')) {
+            console.error('Quota/rate limit error (429):', errorMsg);
             throw error;
           }
-          // Otherwise try next model
-          console.log(`Model ${modelName} failed with error, trying next model...`);
+          // If it's a 400 error (bad request), might be model-specific, try next
+          if (errorCode === 400 && errorMsg.includes('model')) {
+            console.log(`Model ${modelName} returned 400, trying next model...`);
+            continue;
+          }
+          // For other errors, log and try next model
+          console.log(`Model ${modelName} failed with error (${errorCode}), trying next model...`);
           continue;
         }
       }
