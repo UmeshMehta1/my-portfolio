@@ -49,6 +49,10 @@ app.use('/api/', limiter);
 // Visitor tracking (in-memory for real-time)
 let onlineUsers = new Set();
 
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
+
 // Configure Nodemailer for Gmail
 const createTransporter = () => {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
