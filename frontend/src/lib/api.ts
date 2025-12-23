@@ -25,9 +25,16 @@ export async function callAIEndpoint(endpoint: string, body: any) {
         error: `HTTP ${response.status}: ${response.statusText}` 
       }));
       
-      // Use the message from backend if available, otherwise use error
+      // Use the message from backend if available, include details for debugging
       const errorMsg = errorData.message || errorData.error || `HTTP ${response.status}: Request failed`;
-      throw new Error(errorMsg);
+      const errorWithDetails = errorData.details 
+        ? `${errorMsg}\n\nDetails: ${errorData.details}`
+        : errorMsg;
+      
+      const error = new Error(errorWithDetails);
+      // Attach additional error info for debugging
+      (error as any).errorData = errorData;
+      throw error;
     }
 
     return await response.json();
