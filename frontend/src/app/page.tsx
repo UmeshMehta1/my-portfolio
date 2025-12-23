@@ -12,10 +12,8 @@ import GamificationPanel from '@/components/Gamification';
 import CaseStudies from '@/components/CaseStudy';
 import SkillsRadar from '@/components/SkillsRadar';
 import TechStackTimeline from '@/components/TechStackTimeline';
-import ResumeGenerator from '@/components/ResumeGenerator';
 import APIPlayground from '@/components/APIPlayground';
 import AIChatbot from '@/components/AIChatbot';
-import ResumeAnalyzer from '@/components/ResumeAnalyzer';
 import BlogWithSummaries from '@/components/BlogSummary';
 import { useScrollTracking } from '@/hooks/useScrollTracking';
 import { useScrollAnimations } from '@/components/ScrollAnimations';
@@ -35,8 +33,6 @@ export default function Home() {
       <Projects />
       <CaseStudies />
       <BlogWithSummaries />
-      <ResumeGenerator />
-      <ResumeAnalyzer />
       <APIPlayground />
       <Contact />
       <Footer />
