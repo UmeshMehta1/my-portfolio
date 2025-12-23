@@ -25,15 +25,15 @@ class AIService {
 
     try {
       // Try different models in order of preference
-      // Based on available models from /api/ai/models endpoint
-      // Model names must include the "models/" prefix
+      // Prioritize older models that are more likely to be in free tier
+      // Newer models (2.0, 2.5) may require paid plans
       const models = [
-        'models/gemini-1.5-flash-001',  // Stable version, supports generateContent
-        'models/gemini-1.5-flash-latest', // Latest version
-        'models/gemini-2.0-flash-001',   // Newer stable version
-        'models/gemini-2.0-flash',       // Newer version
-        'models/gemini-flash-latest',    // Latest flash
-        'models/gemini-2.5-flash',       // Latest stable
+        'models/gemini-1.5-flash-001',  // Older stable version - most likely free tier
+        'models/gemini-1.5-flash-002',  // Try different versions
+        'models/gemini-1.5-flash-003',
+        'models/gemini-1.5-flash-004',
+        'models/gemini-1.5-flash-005',
+        'models/gemini-1.5-flash-latest', // Latest 1.5 version
       ];
       let lastError = null;
 
@@ -64,9 +64,15 @@ class AIService {
             console.error('API key authentication error (403):', errorMsg);
             throw error;
           }
-          // If it's a quota error (429), throw immediately
+          // If it's a quota error (429), try next model (might be free tier vs paid)
           if (errorCode === 429 || errorMsg.includes('quota') || errorMsg.includes('rate limit') || errorMsg.includes('RESOURCE_EXHAUSTED')) {
-            console.error('Quota/rate limit error (429):', errorMsg);
+            console.error(`Quota/rate limit error (429) for ${modelName}, trying next model...`);
+            // If it's a free tier quota issue, try next model
+            if (errorMsg.includes('free_tier') || errorMsg.includes('FreeTier')) {
+              console.log(`Model ${modelName} requires paid plan or free tier exhausted, trying next...`);
+              continue;
+            }
+            // Otherwise throw immediately for other quota issues
             throw error;
           }
           // If it's a 400 error (bad request), might be model-specific, try next
