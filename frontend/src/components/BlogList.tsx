@@ -39,12 +39,14 @@ export default function BlogList() {
         : `${apiUrl}/api/blog?category=${selectedCategory}&limit=20`;
       
       const response = await fetch(url);
-      const data = await response.json();
+      const data = await response.json() as { posts?: BlogPost[]; total?: number; totalPages?: number; currentPage?: number };
       
-      setPosts(data.posts || []);
+      const posts = (data.posts || []) as BlogPost[];
+      setPosts(posts);
       
       // Extract unique categories
-      const uniqueCategories = ['All', ...new Set(data.posts?.map((p: BlogPost) => p.category) || [])];
+      const postCategories = posts.map((p) => p.category).filter((cat): cat is string => typeof cat === 'string');
+      const uniqueCategories = ['All', ...new Set(postCategories)];
       setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error fetching blog posts:', error);
