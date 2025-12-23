@@ -25,7 +25,8 @@ class AIService {
 
     try {
       // Try different models in order of preference
-      const models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'];
+      // Note: gemini-pro is deprecated, use gemini-1.5-flash or gemini-1.5-pro
+      const models = ['gemini-1.5-flash', 'gemini-1.5-pro'];
       let lastError = null;
 
       for (const modelName of models) {
@@ -46,7 +47,7 @@ class AIService {
           });
           
           // If it's a model not found error (404), try next model
-          if (errorCode === 404 || (errorMsg.includes('not found') && errorMsg.includes('model'))) {
+          if (errorCode === 404 || errorMsg.includes('not found') || errorMsg.includes('is not found for API version')) {
             console.log(`Model ${modelName} not found (404), trying next model...`);
             continue;
           }
