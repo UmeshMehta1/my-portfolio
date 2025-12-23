@@ -68,14 +68,22 @@ export default function AIChatbot() {
       let errorMessage = 'Sorry, I encountered an error.';
       
       if (error instanceof Error) {
+        // Show the actual error message from backend if available
+        errorMessage = error.message;
+        
+        // Provide helpful context for common errors
         if (error.message.includes('Generative Language API') || error.message.includes('not enabled')) {
-          errorMessage = 'AI service is not available. The Generative Language API needs to be enabled in Google Cloud Console. Click the link in the error to enable it.';
+          errorMessage = 'AI service is not available. The Generative Language API needs to be enabled in Google Cloud Console.';
         } else if (error.message.includes('Cannot connect')) {
-          errorMessage = 'Cannot connect to backend server. Please make sure the backend is running on port 5000.';
-        } else {
-          errorMessage = `Sorry, I encountered an error: ${error.message}. Please try again later.`;
+          errorMessage = 'Cannot connect to backend server. Please make sure the backend is running and accessible.';
+        } else if (error.message.includes('quota') || error.message.includes('rate limit')) {
+          errorMessage = 'API quota exceeded. Please check your usage limits in Google Cloud Console.';
+        } else if (error.message.includes('API key') || error.message.includes('authentication')) {
+          errorMessage = 'API key authentication failed. Please verify your API key is correct and has access to the Generative Language API.';
         }
       }
+      
+      console.error('Chat error:', error);
       
       const errorMsg: Message = {
         id: getMessageId(),
