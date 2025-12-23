@@ -193,6 +193,32 @@ router.get('/health', (req, res) => {
   });
 });
 
+// List available models endpoint
+router.get('/models', async (req, res) => {
+  try {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'API key not configured' });
+    }
+
+    // Fetch available models from Google's API
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
+    const data = await response.json();
+    
+    res.json({
+      success: true,
+      models: data.models || [],
+      count: data.models?.length || 0,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+      details: error.stack,
+    });
+  }
+});
+
 // Test endpoint - try to make an actual API call
 router.get('/test', async (req, res) => {
   try {

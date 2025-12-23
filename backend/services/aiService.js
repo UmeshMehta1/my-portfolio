@@ -25,8 +25,12 @@ class AIService {
 
     try {
       // Try different models in order of preference
-      // Note: gemini-pro is deprecated, use gemini-1.5-flash or gemini-1.5-pro
-      const models = ['gemini-1.5-flash', 'gemini-1.5-pro'];
+      // Based on Google's API, gemini-1.5-flash is the most commonly available model
+      // gemini-1.5-pro requires billing and may not be available in v1beta
+      const models = [
+        'gemini-1.5-flash',      // Most commonly available - should work
+        'gemini-pro',            // Fallback older model
+      ];
       let lastError = null;
 
       for (const modelName of models) {
