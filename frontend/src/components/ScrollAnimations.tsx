@@ -43,7 +43,8 @@ export function useScrollAnimations() {
     // Magnetic buttons
     const magneticButtons = document.querySelectorAll('[data-magnetic]');
     magneticButtons.forEach((button) => {
-      button.addEventListener('mousemove', (e) => {
+      button.addEventListener('mousemove', (event) => {
+        const e = event as MouseEvent;
         const rect = (button as HTMLElement).getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
         const y = e.clientY - rect.top - rect.height / 2;
@@ -69,7 +70,8 @@ export function useScrollAnimations() {
     // 3D tilt effect
     const tiltElements = document.querySelectorAll('[data-tilt]');
     tiltElements.forEach((element) => {
-      element.addEventListener('mousemove', (e) => {
+      element.addEventListener('mousemove', (event) => {
+        const e = event as MouseEvent;
         const rect = (element as HTMLElement).getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;

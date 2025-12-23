@@ -1,20 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   images: {
-    domains: ['localhost'],
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '**',
-      },
-    ],
+    // Allow only explicitly configured remote image patterns.
+    // Local images from the public directory remain allowed by default.
+    remotePatterns: [],
   },
   // Enable compression
   compress: true,
-  // Optimize production builds
-  swcMinify: true,
   // Headers for SEO and security
   async headers() {
     return [
