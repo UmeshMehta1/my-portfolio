@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { callAIEndpoint } from '@/lib/api';
 
 interface Message {
   id: string;
@@ -54,21 +55,7 @@ export default function AIChatbot() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/ai/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question: userMessage.content }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
-        const errorMsg = errorData.message || errorData.error || 'Failed to get response';
-        throw new Error(errorMsg);
-      }
-
-      const data = await response.json();
+      const data = await callAIEndpoint('chat', { question: userMessage.content });
 
       const aiMessage: Message = {
         id: getMessageId(),

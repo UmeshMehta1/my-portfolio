@@ -32,7 +32,7 @@ export async function callAIEndpoint(endpoint: string, body: any) {
     return await response.json();
   } catch (error) {
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Cannot connect to backend server. Please make sure the backend is running on port 5000.');
+      throw new Error('Cannot connect to backend server. Please make sure the backend is running and the API URL is configured correctly.');
     }
     throw error;
   }
