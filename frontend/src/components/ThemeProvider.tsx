@@ -40,15 +40,31 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     let resolved: 'light' | 'dark';
     if (theme === 'system') {
-      resolved = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      resolved = mediaQuery.matches ? 'dark' : 'light';
+      
+      // Listen for system theme changes
+      const handleChange = (e: MediaQueryListEvent) => {
+        const newResolved = e.matches ? 'dark' : 'light';
+        setResolvedTheme(newResolved);
+        const rootEl = document.documentElement;
+        rootEl.classList.remove('light', 'dark');
+        rootEl.classList.add(newResolved);
+      };
+      
+      mediaQuery.addEventListener('change', handleChange);
+      
+      setResolvedTheme(resolved);
+      root.classList.add(resolved);
+      
+      return () => {
+        mediaQuery.removeEventListener('change', handleChange);
+      };
     } else {
       resolved = theme;
+      setResolvedTheme(resolved);
+      root.classList.add(resolved);
     }
-
-    setResolvedTheme(resolved);
-    root.classList.add(resolved);
     
     // Save to localStorage only on client
     if (typeof window !== 'undefined') {
