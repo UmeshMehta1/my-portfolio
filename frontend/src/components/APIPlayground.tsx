@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { apiUrl } from '@/lib/api';
 
 interface APIEndpoint {
   method: string;
@@ -11,12 +12,12 @@ interface APIEndpoint {
   response: string;
 }
 
-const apiEndpoints: APIEndpoint[] = [
+const getApiEndpoints = (baseUrl: string): APIEndpoint[] => [
   {
     method: 'GET',
     path: '/api/stats',
     description: 'Get visitor statistics',
-    example: 'fetch("http://localhost:5000/api/stats")',
+    example: `fetch("${baseUrl}/api/stats")`,
     response: JSON.stringify({
       todayVisitors: 42,
       totalVisitors: 1234,
@@ -28,7 +29,7 @@ const apiEndpoints: APIEndpoint[] = [
     method: 'GET',
     path: '/api/projects',
     description: 'Get all projects',
-    example: 'fetch("http://localhost:5000/api/projects?category=Full Stack")',
+    example: `fetch("${baseUrl}/api/projects?category=Full Stack")`,
     response: JSON.stringify([
       {
         id: 1,
@@ -42,7 +43,7 @@ const apiEndpoints: APIEndpoint[] = [
     method: 'POST',
     path: '/api/contact',
     description: 'Submit contact form',
-    example: `fetch("http://localhost:5000/api/contact", {
+    example: `fetch("${baseUrl}/api/contact", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
@@ -60,6 +61,7 @@ const apiEndpoints: APIEndpoint[] = [
 ];
 
 export default function APIPlayground() {
+  const apiEndpoints = getApiEndpoints(apiUrl);
   const [selectedEndpoint, setSelectedEndpoint] = useState(apiEndpoints[0]);
   const [response, setResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
@@ -71,7 +73,7 @@ export default function APIPlayground() {
     setResponse('');
 
     try {
-      const url = `http://localhost:5000${selectedEndpoint.path}`;
+      const url = `${apiUrl}${selectedEndpoint.path}`;
       const options: RequestInit = {
         method: selectedEndpoint.method,
         headers: {
@@ -190,7 +192,7 @@ export default function APIPlayground() {
 
           <div className="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
             <p className="text-sm text-blue-800 dark:text-blue-300">
-              <strong>Note:</strong> Make sure the backend server is running on port 5000 for the API playground to work.
+              <strong>Note:</strong> API calls are made to: <code className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">{apiUrl}</code>
             </p>
           </div>
         </motion.div>

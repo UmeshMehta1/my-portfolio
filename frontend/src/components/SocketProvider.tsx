@@ -24,7 +24,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   const [onlineUsers, setOnlineUsers] = useState(0);
 
   useEffect(() => {
-    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5000';
+    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLIC_API_URL || 'https://my-portfolio-72dq.onrender.com';
     const newSocket = io(socketUrl, {
       transports: ['websocket', 'polling'],
       reconnection: true,

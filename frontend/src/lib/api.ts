@@ -1,9 +1,10 @@
 // API configuration helper
 const getApiUrl = () => {
+  const defaultUrl = 'https://my-portfolio-72dq.onrender.com';
   if (typeof window === 'undefined') {
-    return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    return process.env.NEXT_PUBLIC_API_URL || defaultUrl;
   }
-  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  return process.env.NEXT_PUBLIC_API_URL || defaultUrl;
 };
 
 export const apiUrl = getApiUrl();

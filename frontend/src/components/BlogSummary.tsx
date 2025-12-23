@@ -90,7 +90,7 @@ export default function BlogWithSummaries() {
         if (error.message.includes('Generative Language API') || error.message.includes('not enabled')) {
           errorMessage = 'AI service is not available. The Generative Language API needs to be enabled in Google Cloud Console.';
         } else if (error.message.includes('Cannot connect')) {
-          errorMessage = 'Cannot connect to backend server. Please make sure the backend is running on port 5000.';
+          errorMessage = 'Cannot connect to backend server. Please make sure the backend is running and the API URL is configured correctly.';
         } else {
           errorMessage = error.message;
         }

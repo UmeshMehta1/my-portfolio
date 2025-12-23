@@ -20,7 +20,7 @@ export default function ResumeAnalyzer() {
     setAnalysis('');
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://my-portfolio-72dq.onrender.com';
       const response = await fetch(`${apiUrl}/api/ai/analyze-resume`, {
         method: 'POST',
         headers: {
@@ -44,7 +44,7 @@ export default function ResumeAnalyzer() {
         if (err.message.includes('Generative Language API') || err.message.includes('not enabled')) {
           errorMsg = 'AI service is not available. The Generative Language API needs to be enabled in Google Cloud Console.';
         } else if (err.message.includes('Cannot connect')) {
-          errorMsg = 'Cannot connect to backend server. Please make sure the backend is running on port 5000.';
+          errorMsg = 'Cannot connect to backend server. Please make sure the backend is running and the API URL is configured correctly.';
         } else {
           errorMsg = err.message;
         }
