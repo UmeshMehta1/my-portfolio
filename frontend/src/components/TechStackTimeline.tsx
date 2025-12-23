@@ -15,7 +15,7 @@ const techTimeline: TechYear[] = [
     year: 2020,
     technologies: ['HTML', 'CSS', 'JavaScript'],
     description: 'Started with web fundamentals',
-    color: 'bg-blue-500',
+    color: 'bg-emerald-500',
   },
   {
     year: 2021,
@@ -27,7 +27,7 @@ const techTimeline: TechYear[] = [
     year: 2022,
     technologies: ['TypeScript', 'Next.js', 'MongoDB'],
     description: 'Full-stack development',
-    color: 'bg-purple-500',
+    color: 'bg-green-500',
   },
   {
     year: 2023,
@@ -65,7 +65,7 @@ export default function TechStackTimeline() {
 
           <div ref={ref} className="relative">
             {/* Timeline Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-blue-500 via-purple-500 to-pink-500" />
+            <div className="absolute left-8 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 via-green-500 to-teal-500" />
 
             {/* Timeline Items */}
             <div className="space-y-12">

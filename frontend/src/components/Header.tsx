@@ -78,7 +78,7 @@ export default function Header() {
               )}
               {onlineUsers > 0 && (
                 <div className="flex items-center gap-1">
-                  <span className="w-2 h-2 bg-blue-500 rounded-full" />
+                  <span className="w-2 h-2 bg-emerald-500 rounded-full" />
                   <span>{onlineUsers} online</span>
                 </div>
               )}
@@ -139,7 +139,7 @@ export default function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                  className="block text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.label}

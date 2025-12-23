@@ -125,7 +125,7 @@ export default function GamificationPanel() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-purple-600 to-pink-600 text-white p-4 rounded-full shadow-2xl hover:shadow-purple-500/50 transition-all"
+        className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-emerald-600 to-green-600 text-white p-4 rounded-full shadow-2xl hover:shadow-emerald-500/50 transition-all"
         aria-label="Gamification Panel"
       >
         <div className="flex flex-col items-center">
@@ -194,7 +194,7 @@ export default function GamificationPanel() {
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${xpProgress * 100}%` }}
-                      className="h-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full"
+                      className="h-3 bg-gradient-to-r from-emerald-600 to-green-600 rounded-full"
                     />
                   </div>
                 </div>
@@ -221,7 +221,7 @@ export default function GamificationPanel() {
                           <p className="text-xs text-gray-600 dark:text-gray-400 text-center mt-1">
                             {achievement.description}
                           </p>
-                          <div className="text-xs text-purple-600 dark:text-purple-400 text-center mt-2">
+                          <div className="text-xs text-emerald-600 dark:text-emerald-400 text-center mt-2">
                             +{achievement.xp} XP
                           </div>
                         </div>

@@ -23,17 +23,17 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-20 relative overflow-hidden">
+    <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-20 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-300 dark:bg-blue-900 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-20 dark:opacity-10 animate-blob"
+          className="absolute top-20 left-10 w-72 h-72 bg-emerald-300 dark:bg-emerald-900 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-20 dark:opacity-10 animate-blob"
         />
         <motion.div
-          className="absolute top-40 right-10 w-72 h-72 bg-purple-300 dark:bg-purple-900 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"
+          className="absolute top-40 right-10 w-72 h-72 bg-green-300 dark:bg-green-900 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-20 dark:opacity-10 animate-blob animation-delay-2000"
         />
         <motion.div
-          className="absolute -bottom-8 left-1/2 w-72 h-72 bg-pink-300 dark:bg-pink-900 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"
+          className="absolute -bottom-8 left-1/2 w-72 h-72 bg-teal-300 dark:bg-teal-900 rounded-full mix-blend-multiply dark:mix-blend-normal filter blur-xl opacity-20 dark:opacity-10 animate-blob animation-delay-4000"
         />
       </div>
 
@@ -46,7 +46,7 @@ export default function Hero() {
           >
             <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">
               Hi, I'm{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600">
                 Umesh Mehta
               </span>
             </h1>
@@ -60,7 +60,7 @@ export default function Hero() {
           >
             <div className="text-xl md:text-3xl text-gray-600 dark:text-gray-300">
               I'm a{' '}
-              <span className="inline-block min-w-[300px] text-blue-600 dark:text-blue-400 font-semibold">
+              <span className="inline-block min-w-[300px] text-emerald-600 dark:text-emerald-400 font-semibold">
                 <motion.span
                   key={currentRole}
                   initial={{ opacity: 0, y: 20 }}
@@ -92,13 +92,13 @@ export default function Hero() {
           >
             <a
               href="#projects"
-              className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-xl transition-all transform hover:scale-105"
+              className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-lg font-semibold hover:shadow-xl transition-all transform hover:scale-105"
             >
               View My Work
             </a>
             <a
               href="#contact"
-              className="px-8 py-3 border-2 border-blue-600 text-blue-600 dark:border-blue-400 dark:text-blue-400 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-800 transition-colors"
+              className="px-8 py-3 border-2 border-emerald-600 text-emerald-600 dark:border-emerald-400 dark:text-emerald-400 rounded-lg font-semibold hover:bg-emerald-50 dark:hover:bg-gray-800 transition-colors"
             >
               Get In Touch
             </a>

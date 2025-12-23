@@ -66,7 +66,7 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
-            <h3 className="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h3 className="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
               Portfolio
             </h3>
             <p className="text-gray-400">
@@ -109,7 +109,7 @@ export default function Footer() {
                   href={link.href}
                   target={link.icon !== 'email' ? '_blank' : undefined}
                   rel={link.icon !== 'email' ? 'noopener noreferrer' : undefined}
-                  className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  className="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-emerald-600 transition-colors"
                   aria-label={link.name}
                 >
                   {getIcon(link.icon)}

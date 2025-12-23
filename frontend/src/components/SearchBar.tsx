@@ -96,9 +96,9 @@ export default function SearchBar() {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'project': return 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300';
+      case 'project': return 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300';
       case 'skill': return 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300';
-      case 'blog': return 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300';
+      case 'blog': return 'bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-300';
       case 'section': return 'bg-orange-100 dark:bg-orange-900/30 text-orange-800 dark:text-orange-300';
       default: return 'bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-300';
     }

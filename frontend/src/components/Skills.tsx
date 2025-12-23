@@ -66,7 +66,7 @@ export default function Skills() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
                   selectedCategory === category
-                    ? 'bg-blue-600 text-white shadow-lg'
+                    ? 'bg-emerald-600 text-white shadow-lg'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -98,7 +98,7 @@ export default function Skills() {
                     initial={{ width: 0 }}
                     animate={inView ? { width: `${skill.level}%` } : { width: 0 }}
                     transition={{ duration: 1, delay: index * 0.1 }}
-                    className="h-full bg-gradient-to-r from-blue-600 to-purple-600 rounded-full"
+                    className="h-full bg-gradient-to-r from-emerald-600 to-green-600 rounded-full"
                   />
                 </div>
               </motion.div>

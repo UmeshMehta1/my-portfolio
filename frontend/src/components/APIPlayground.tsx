@@ -131,7 +131,7 @@ export default function APIPlayground() {
                   }}
                   className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
                     selectedEndpoint.path === endpoint.path
-                      ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/20'
+                      ? 'border-emerald-600 bg-emerald-50 dark:bg-emerald-900/20'
                       : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
                   }`}
                 >
@@ -156,7 +156,7 @@ export default function APIPlayground() {
               <button
                 onClick={testEndpoint}
                 disabled={isLoading}
-                className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="w-full px-6 py-3 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors disabled:opacity-50"
               >
                 {isLoading ? 'Testing...' : 'Test Endpoint'}
               </button>

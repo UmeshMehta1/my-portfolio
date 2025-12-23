@@ -121,7 +121,7 @@ export default function Projects() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-2 rounded-full font-medium transition-all ${
                   selectedCategory === category
-                    ? 'bg-blue-600 text-white shadow-lg'
+                    ? 'bg-emerald-600 text-white shadow-lg'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
               >
@@ -169,7 +169,7 @@ export default function Projects() {
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                        className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
                         onClick={(e) => e.stopPropagation()}
                       >
                         GitHub →
@@ -180,7 +180,7 @@ export default function Projects() {
                         href={project.live}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
+                        className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
                         onClick={(e) => e.stopPropagation()}
                       >
                         Live Demo →
@@ -228,7 +228,7 @@ export default function Projects() {
               {selectedProject.technologies.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded text-sm font-medium"
+                  className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300 rounded text-sm font-medium"
                 >
                   {tech}
                 </span>
@@ -250,7 +250,7 @@ export default function Projects() {
                   href={selectedProject.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
                 >
                   Live Demo
                 </a>
