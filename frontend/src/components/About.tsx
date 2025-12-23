@@ -33,12 +33,12 @@ const experience = [
 
 const keyProjects = [
   {
-    name: 'USA Client CRM',
-    description: 'Customer Relationship Management system for USA-based client',
+    name: 'Tax & Beyond - USA CRM',
+    description: 'Tax, accounting, and insurance services platform for USA clients',
   },
   {
     name: 'Hamrotask Australia',
-    description: 'Task management platform for Australian market',
+    description: 'Task marketplace connecting Nepali service providers in Australia',
   },
   {
     name: 'SaaS-based POS System',

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: "%s | Umesh Mehta Portfolio",
   },
   description:
-    "Full Stack Developer at Digital Pathshala, BCA student at Itahari Nauna College. Building scalable web applications, leading teams, and mentoring 150+ students in MERN stack. Experience with international clients and major projects including USA CRM, Hamrotask Australia, SaaS POS, UpayaX, and Share Bazar Insights.",
+    "Full Stack Developer at Digital Pathshala, BCA student at Itahari Nauna College. Building scalable web applications, leading teams, and mentoring 150+ students in MERN stack. Experience with international clients and major projects including Tax & Beyond (USA CRM), Hamrotask Australia, SaaS POS, UpayaX, and Share Bazar Insights.",
   keywords: [
     "Umesh Mehta",
     "full stack developer",

@@ -15,8 +15,8 @@ interface SearchItem {
 
 const searchData: SearchItem[] = [
   // Projects
-  { id: '1', title: 'USA Client CRM System', description: 'Customer Relationship Management platform', type: 'project', url: '#projects', keywords: ['crm', 'customer', 'management', 'sales'] },
-  { id: '2', title: 'Hamrotask Australia', description: 'Task management platform', type: 'project', url: '#projects', keywords: ['task', 'todo', 'collaboration', 'productivity', 'australia'] },
+  { id: '1', title: 'Tax & Beyond - USA CRM', description: 'Tax, accounting, and insurance services platform', type: 'project', url: '#projects', keywords: ['crm', 'tax', 'accounting', 'insurance', 'usa', 'financial'] },
+  { id: '2', title: 'Hamrotask Australia', description: 'Task marketplace for Nepali service providers', type: 'project', url: '#projects', keywords: ['task', 'marketplace', 'australia', 'nepali', 'services', 'hamrotask'] },
   { id: '3', title: 'SaaS-Based POS System', description: 'Point of Sale system', type: 'project', url: '#projects', keywords: ['pos', 'point of sale', 'saas', 'retail', 'billing'] },
   { id: '4', title: 'UpayaX Home Service', description: 'Home service marketplace', type: 'project', url: '#projects', keywords: ['home service', 'marketplace', 'booking', 'services'] },
   { id: '5', title: 'Share Bazar Insights', description: 'Stock market insights platform', type: 'project', url: '#projects', keywords: ['stock', 'market', 'trading', 'finance', 'charts', 'portfolio'] },
