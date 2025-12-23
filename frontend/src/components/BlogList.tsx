@@ -41,12 +41,14 @@ export default function BlogList() {
       const response = await fetch(url);
       const data = await response.json() as { posts?: BlogPost[]; total?: number; totalPages?: number; currentPage?: number };
       
-      const posts = (data.posts || []) as BlogPost[];
+      const posts: BlogPost[] = Array.isArray(data.posts) ? data.posts : [];
       setPosts(posts);
       
       // Extract unique categories
-      const postCategories = posts.map((p) => p.category).filter((cat): cat is string => typeof cat === 'string');
-      const uniqueCategories = ['All', ...new Set(postCategories)];
+      const postCategories: string[] = posts
+        .map((p: BlogPost) => p.category)
+        .filter((cat: string | undefined): cat is string => typeof cat === 'string' && cat.length > 0);
+      const uniqueCategories: string[] = ['All', ...new Set<string>(postCategories)];
       setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error fetching blog posts:', error);
