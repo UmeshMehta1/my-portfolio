@@ -15,7 +15,10 @@ export default function VisitorGraph() {
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  // Use configured API URL or fall back to deployed backend (never localhost in production)
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL ||
+    'https://my-portfolio-72dq.onrender.com';
 
   useEffect(() => {
     const fetchData = async () => {

@@ -36,37 +36,26 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (typeof window === 'undefined' || !mounted) return;
 
     const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
 
+    // Resolve actual theme ('light' | 'dark')
     let resolved: 'light' | 'dark';
     if (theme === 'system') {
-      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-      resolved = mediaQuery.matches ? 'dark' : 'light';
-      
-      // Listen for system theme changes
-      const handleChange = (e: MediaQueryListEvent) => {
-        const newResolved = e.matches ? 'dark' : 'light';
-        setResolvedTheme(newResolved);
-        const rootEl = document.documentElement;
-        rootEl.classList.remove('light', 'dark');
-        rootEl.classList.add(newResolved);
-      };
-      
-      mediaQuery.addEventListener('change', handleChange);
-      
-      setResolvedTheme(resolved);
-      root.classList.add(resolved);
-      
-      return () => {
-        mediaQuery.removeEventListener('change', handleChange);
-      };
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      resolved = prefersDark ? 'dark' : 'light';
     } else {
       resolved = theme;
-      setResolvedTheme(resolved);
-      root.classList.add(resolved);
     }
-    
-    // Save to localStorage only on client
+
+    // Update class for Tailwind dark mode
+    if (resolved === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+
+    setResolvedTheme(resolved);
+
+    // Save preference
     if (typeof window !== 'undefined') {
       localStorage.setItem('theme', theme);
     }

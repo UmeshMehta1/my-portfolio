@@ -27,7 +27,9 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const trackVisitor = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const apiUrl =
+          process.env.NEXT_PUBLIC_API_URL ||
+          'https://my-portfolio-72dq.onrender.com';
         const sessionId = sessionStorage.getItem('sessionId') || `session-${Date.now()}-${Math.random()}`;
         sessionStorage.setItem('sessionId', sessionId);
 

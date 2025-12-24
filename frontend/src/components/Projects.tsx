@@ -52,12 +52,14 @@ const projects: Project[] = [
   },
   {
     id: 4,
-    title: 'UpayaX - Home Service Platform',
-    description: 'On-demand home service marketplace connecting service providers with customers.',
-    longDescription: 'A comprehensive marketplace platform for home services including booking, payment processing, service provider management, and customer reviews. Features real-time booking system, geolocation-based service provider matching, secure payment gateway integration, rating and review system, and admin panel for platform management. Built to handle high traffic and ensure smooth user experience.',
+    title: 'UpaayaX - Home Services & Room Rental Platform',
+    description: 'On-demand home services and room rental marketplace connecting users with trusted local providers.',
+    longDescription:
+      'UpaayaX is a modern marketplace platform that helps users find trusted local service professionals and room rentals. Inspired by the live demo at upaayax.vercel.app, it focuses on easy booking, quick matching, secure payments, and transparent pricing. Users can hire taskers for furniture assembly, handyman repairs, home cleaning, grocery delivery, and more, as well as discover and list rooms for rent. The platform is designed for a smooth UX with clear service categories, city-based discovery, and a scalable full stack architecture.',
     technologies: ['Next.js', 'Node.js', 'TypeScript', 'PostgreSQL', 'Socket.io', 'Stripe', 'Google Maps API'],
     category: 'Full Stack',
     github: 'https://github.com/UmeshMehta1',
+    live: 'https://upaayax.vercel.app/',
     featured: true,
   },
   {
