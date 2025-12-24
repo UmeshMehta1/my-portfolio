@@ -46,10 +46,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       resolved = theme;
     }
 
-    // Update class for Tailwind dark mode
+    // Update classes for Tailwind dark mode and CSS variable overrides
     if (resolved === 'dark') {
       root.classList.add('dark');
+      root.classList.remove('light');
     } else {
+      root.classList.add('light');
       root.classList.remove('dark');
     }
 
