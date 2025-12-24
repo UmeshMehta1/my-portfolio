@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Fuse from 'fuse.js';
 
@@ -46,6 +47,8 @@ export default function SearchBar() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchItem[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     if (query.trim()) {
@@ -79,9 +82,45 @@ export default function SearchBar() {
   }, [isOpen]);
 
   const handleSelect = (item: SearchItem) => {
-    window.location.href = item.url;
     setIsOpen(false);
     setQuery('');
+    
+    // Handle hash links with smooth scroll (no hash in URL)
+    if (item.url.startsWith('#')) {
+      const sectionId = item.url.substring(1);
+      
+      // If not on home page, navigate to home first
+      if (pathname !== '/') {
+        router.push('/');
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const headerOffset = 80;
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 300);
+      } else {
+        // Already on home page, just scroll
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    } else {
+      // Regular links like /blog
+      router.push(item.url);
+    }
   };
 
   const getTypeIcon = (type: string) => {

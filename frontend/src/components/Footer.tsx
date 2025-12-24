@@ -1,15 +1,52 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 export default function Footer() {
   // Use state to avoid hydration mismatch
   const [currentYear, setCurrentYear] = useState(2024);
+  const router = useRouter();
+  const pathname = usePathname();
   
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
+
+  // Handle smooth scroll navigation for footer links
+  const handleFooterNav = (section: string) => {
+    const sectionId = section.toLowerCase();
+    
+    // If not on home page, navigate to home first
+    if (pathname !== '/') {
+      router.push('/');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }, 300);
+    } else {
+      // Already on home page, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
 
   const socialLinks = [
     { name: 'LinkedIn', href: 'https://www.linkedin.com/in/umeshmehta1245/', icon: 'linkedin' },
@@ -78,24 +115,41 @@ export default function Footer() {
             <h4 className="text-lg font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="home" className="hover:text-white transition-colors">
+                <button
+                  onClick={() => handleFooterNav('home')}
+                  className="hover:text-white transition-colors bg-transparent border-none cursor-pointer text-left p-0"
+                >
                   Home
-                </Link>
+                </button>
               </li>
               <li>
-                <Link href="/about" className="hover:text-white transition-colors">
+                <button
+                  onClick={() => handleFooterNav('about')}
+                  className="hover:text-white transition-colors bg-transparent border-none cursor-pointer text-left p-0"
+                >
                   About
-                </Link>
+                </button>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-white transition-colors">
+                <button
+                  onClick={() => handleFooterNav('projects')}
+                  className="hover:text-white transition-colors bg-transparent border-none cursor-pointer text-left p-0"
+                >
                   Projects
+                </button>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-white transition-colors">
+                  Blog
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-white transition-colors">
+                <button
+                  onClick={() => handleFooterNav('contact')}
+                  className="hover:text-white transition-colors bg-transparent border-none cursor-pointer text-left p-0"
+                >
                   Contact
-                </Link>
+                </button>
               </li>
             </ul>
           </div>

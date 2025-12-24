@@ -24,28 +24,53 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Check if we're on the home page
-  const isHomePage = pathname === '/';
-
-  // Handle navigation for hash links
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    // If it's a hash link and we're not on home page, navigate to home page first
-    if (href.startsWith('#') && !isHomePage) {
-      e.preventDefault();
-      // Navigate to home page with hash
-      router.push(`/${href}`);
+  // Handle smooth scroll navigation without hash in URL
+  const handleNavClick = (href: string) => {
+    // Handle section navigation (smooth scroll without hash)
+    if (href.startsWith('#')) {
+      const sectionId = href.substring(1);
+      
+      // If not on home page, navigate to home first
+      if (pathname !== '/') {
+        router.push('/');
+        // Wait for navigation, then scroll
+        setTimeout(() => {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const headerOffset = 80; // Account for fixed header
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: 'smooth'
+            });
+          }
+        }, 300);
+      } else {
+        // Already on home page, just scroll
+        const element = document.getElementById(sectionId);
+        if (element) {
+          const headerOffset = 80; // Account for fixed header
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
     }
     // Close mobile menu on click
     setIsMenuOpen(false);
   };
 
   const navLinks = [
-    { href: '/home', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/skills', label: 'Skills' },
-    { href: '/projects', label: 'Projects' },
+    { href: '#home', label: 'Home' },
+    { href: '#about', label: 'About' },
+    { href: '#skills', label: 'Skills' },
+    { href: '#projects', label: 'Projects' },
     { href: '/blog', label: 'Blog' },
-    { href: '/contact', label: 'Contact' },
+    { href: '#contact', label: 'Contact' },
   ];
 
   const toggleTheme = () => {
@@ -79,16 +104,25 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navLinks.map((link) => {
-              // If it's a hash link and we're not on home page, use full path
-              const finalHref = link.href.startsWith('#') && !isHomePage 
-                ? `/${link.href}` 
-                : link.href;
+              // For hash links, use onClick handler for smooth scroll
+              // For regular links like /blog, use normal Link
+              if (link.href.startsWith('#')) {
+                return (
+                  <button
+                    key={link.href}
+                    onClick={() => handleNavClick(link.href)}
+                    className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group bg-transparent border-none cursor-pointer"
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-600 dark:bg-emerald-400 group-hover:w-full transition-all duration-300" />
+                  </button>
+                );
+              }
               
               return (
                 <Link
                   key={link.href}
-                  href={finalHref}
-                  onClick={(e) => handleNavClick(e, link.href)}
+                  href={link.href}
                   className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group"
                 >
                   {link.label}
@@ -170,19 +204,27 @@ export default function Header() {
               className="md:hidden mt-4 space-y-4 pb-4"
             >
               {navLinks.map((link) => {
-                // If it's a hash link and we're not on home page, use full path
-                const finalHref = link.href.startsWith('#') && !isHomePage 
-                  ? `/${link.href}` 
-                  : link.href;
+                // For hash links, use button for smooth scroll
+                // For regular links like /blog, use normal Link
+                if (link.href.startsWith('#')) {
+                  return (
+                    <button
+                      key={link.href}
+                      onClick={() => {
+                        handleNavClick(link.href);
+                      }}
+                      className="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium bg-transparent border-none cursor-pointer"
+                    >
+                      {link.label}
+                    </button>
+                  );
+                }
                 
                 return (
                   <Link
                     key={link.href}
-                    href={finalHref}
-                    onClick={(e) => {
-                      handleNavClick(e, link.href);
-                      setIsMenuOpen(false);
-                    }}
+                    href={link.href}
+                    onClick={() => setIsMenuOpen(false)}
                     className="block text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
                   >
                     {link.label}
