@@ -30,11 +30,27 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
     });
   };
 
+  // Check if this is the Digital Pathshala blog post
+  const isDigitalPathshalaPost = post.slug === 'digital-pathshala-nepal-leading-software-development-company';
+  const backgroundImage = isDigitalPathshalaPost ? '/images/dpback.jpg' : undefined;
+
   return (
     <>
       <Header />
-      <article className="py-20 bg-white dark:bg-gray-800 min-h-screen">
-        <div className="container mx-auto px-6">
+      <article 
+        className={`py-20 min-h-screen relative ${backgroundImage ? '' : 'bg-white dark:bg-gray-800'}`}
+        style={backgroundImage ? {
+          backgroundImage: `url(${backgroundImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+        } : {}}
+      >
+        {backgroundImage && (
+          <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-0" />
+        )}
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

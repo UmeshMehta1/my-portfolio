@@ -20,15 +20,25 @@ interface BlogPost {
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    const res = await fetch(`${apiUrl}/api/blog/${slug}`, {
+    // Ensure slug is properly encoded
+    const encodedSlug = encodeURIComponent(slug);
+    const url = `${apiUrl}/api/blog/${encodedSlug}`;
+    
+    const res = await fetch(url, {
       next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     if (!res.ok) {
+      if (res.status === 404) {
+        console.error(`Blog post not found: ${slug}`);
+      } else {
+        console.error(`Failed to fetch blog post: ${res.status} ${res.statusText}`);
+      }
       return null;
     }
 
-    return await res.json();
+    const data = await res.json();
+    return data;
   } catch (error) {
     console.error("Error fetching blog post:", error);
     return null;
@@ -123,10 +133,6 @@ export default async function BlogPostPage({
     notFound();
   }
 
-  return (
-    <main className="min-h-screen pt-20">
-      <BlogPostDetail post={post} />
-    </main>
-  );
+  return <BlogPostDetail post={post} />;
 }
 
