@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTheme } from './ThemeProvider';
 import { useSocket } from './SocketProvider';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,6 +13,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme, resolvedTheme } = useTheme();
   const { visitorCount, onlineUsers } = useSocket();
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,6 +23,21 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Check if we're on the home page
+  const isHomePage = pathname === '/';
+
+  // Handle navigation for hash links
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    // If it's a hash link and we're not on home page, navigate to home page first
+    if (href.startsWith('#') && !isHomePage) {
+      e.preventDefault();
+      // Navigate to home page with hash
+      router.push(`/${href}`);
+    }
+    // Close mobile menu on click
+    setIsMenuOpen(false);
+  };
 
   const navLinks = [
     { href: '#home', label: 'Home' },
@@ -60,16 +78,24 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group"
-              >
-                {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-600 dark:bg-emerald-400 group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              // If it's a hash link and we're not on home page, use full path
+              const finalHref = link.href.startsWith('#') && !isHomePage 
+                ? `/${link.href}` 
+                : link.href;
+              
+              return (
+                <Link
+                  key={link.href}
+                  href={finalHref}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium relative group"
+                >
+                  {link.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-emerald-600 dark:bg-emerald-400 group-hover:w-full transition-all duration-300" />
+                </Link>
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-4">
@@ -143,16 +169,26 @@ export default function Header() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden mt-4 space-y-4 pb-4"
             >
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="block text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
+              {navLinks.map((link) => {
+                // If it's a hash link and we're not on home page, use full path
+                const finalHref = link.href.startsWith('#') && !isHomePage 
+                  ? `/${link.href}` 
+                  : link.href;
+                
+                return (
+                  <Link
+                    key={link.href}
+                    href={finalHref}
+                    onClick={(e) => {
+                      handleNavClick(e, link.href);
+                      setIsMenuOpen(false);
+                    }}
+                    className="block text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
             </motion.div>
           )}
         </AnimatePresence>
