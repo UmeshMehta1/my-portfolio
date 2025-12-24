@@ -23,6 +23,34 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   const [visitorCount, setVisitorCount] = useState(0);
   const [onlineUsers, setOnlineUsers] = useState(0);
 
+  // Track visitor via HTTP as fallback (ensures no visitors are lost)
+  useEffect(() => {
+    const trackVisitor = async () => {
+      try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+        const sessionId = sessionStorage.getItem('sessionId') || `session-${Date.now()}-${Math.random()}`;
+        sessionStorage.setItem('sessionId', sessionId);
+
+        await fetch(`${apiUrl}/api/visitor/track`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            page: window.location.pathname,
+            referrer: document.referrer || '/',
+            sessionId: sessionId,
+          }),
+        });
+      } catch (error) {
+        console.error('Error tracking visitor:', error);
+      }
+    };
+
+    // Track on mount
+    trackVisitor();
+  }, []);
+
   useEffect(() => {
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLIC_API_URL || 'https://my-portfolio-72dq.onrender.com';
     const newSocket = io(socketUrl, {

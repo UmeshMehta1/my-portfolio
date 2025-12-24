@@ -7,6 +7,7 @@ import { useTheme } from './ThemeProvider';
 import { useSocket } from './SocketProvider';
 import { motion, AnimatePresence } from 'framer-motion';
 import SearchBar from './SearchBar';
+import VisitorGraph from './VisitorGraph';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -133,6 +134,9 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-4">
+            {/* Visitor Graph */}
+            <VisitorGraph />
+
             {/* Search Bar */}
             <SearchBar />
 
