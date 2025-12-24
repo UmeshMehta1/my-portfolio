@@ -61,7 +61,7 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
                 <span>{post.views} views</span>
               </div>
               
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              <h1 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 dark:text-white mb-4">
                 {post.title}
               </h1>
               

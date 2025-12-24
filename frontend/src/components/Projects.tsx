@@ -106,7 +106,7 @@ export default function Projects() {
           transition={{ duration: 0.6 }}
           className="max-w-7xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-center text-gray-900 dark:text-white mb-4">
             Featured Projects
           </h2>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
@@ -147,7 +147,7 @@ export default function Projects() {
                   </div>
                 )}
                 <div className="p-6">
-                  <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
+                  <h3 className="text-2xl font-heading font-semibold text-gray-900 dark:text-white mb-3">
                     {project.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -209,7 +209,7 @@ export default function Projects() {
             className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto"
           >
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-3xl font-bold text-gray-900 dark:text-white">
+              <h3 className="text-3xl font-heading font-bold text-gray-900 dark:text-white">
                 {selectedProject.title}
               </h3>
               <button

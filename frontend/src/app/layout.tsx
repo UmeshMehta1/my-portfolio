@@ -1,18 +1,30 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Space_Grotesk, Inter, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Analytics } from "@/components/Analytics";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Display font for hero and major headings - Bold, modern, attention-grabbing
+const bebasNeue = Bebas_Neue({
+  variable: "--font-display",
   subsets: ["latin"],
+  weight: "400",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Heading font - Modern, geometric, unique
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-heading",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
+// Body font - Clean, professional, highly readable
+const inter = Inter({
+  variable: "--font-body",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
 });
 
@@ -184,7 +196,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${bebasNeue.variable} ${spaceGrotesk.variable} ${inter.variable} antialiased`}
         suppressHydrationWarning
       >
         <Providers>

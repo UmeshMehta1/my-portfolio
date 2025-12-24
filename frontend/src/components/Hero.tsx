@@ -44,7 +44,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6">
+            <h1 className="text-5xl md:text-7xl font-display text-gray-900 dark:text-white mb-6 tracking-tight">
               Hi, I'm{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-green-600 to-teal-600">
                 Umesh Mehta
@@ -58,9 +58,9 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="h-16 md:h-20 mb-8"
           >
-            <div className="text-xl md:text-3xl text-gray-600 dark:text-gray-300">
+            <div className="text-xl md:text-3xl font-heading text-gray-600 dark:text-gray-300">
               I'm a{' '}
-              <span className="inline-block min-w-[300px] text-emerald-600 dark:text-emerald-400 font-semibold">
+              <span className="inline-block min-w-[300px] text-emerald-600 dark:text-emerald-400 font-heading font-semibold">
                 <motion.span
                   key={currentRole}
                   initial={{ opacity: 0, y: 20 }}

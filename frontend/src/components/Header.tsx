@@ -53,7 +53,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent"
+            className="text-2xl font-display bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent tracking-tight"
           >
             Portfolio
           </Link>

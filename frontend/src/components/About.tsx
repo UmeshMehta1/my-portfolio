@@ -70,7 +70,7 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            <h2 className="text-4xl md:text-5xl font-heading font-bold text-gray-900 dark:text-white mb-4">
               About Me
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
@@ -85,7 +85,7 @@ export default function About() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+              <h3 className="text-2xl font-heading font-semibold text-gray-900 dark:text-white mb-6">
                 My Journey
               </h3>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
@@ -109,7 +109,7 @@ export default function About() {
               transition={{ duration: 0.6 }}
               className="bg-white dark:bg-gray-800 rounded-lg p-8 shadow-lg"
             >
-              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+              <h3 className="text-2xl font-heading font-semibold text-gray-900 dark:text-white mb-6">
                 What I Do
               </h3>
               <ul className="space-y-4">

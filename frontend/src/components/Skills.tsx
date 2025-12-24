@@ -51,7 +51,7 @@ export default function Skills() {
           transition={{ duration: 0.6 }}
           className="max-w-6xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-gray-900 dark:text-white mb-4">
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-center text-gray-900 dark:text-white mb-4">
             Skills & Expertise
           </h2>
           <p className="text-center text-gray-600 dark:text-gray-300 mb-12 max-w-2xl mx-auto">
