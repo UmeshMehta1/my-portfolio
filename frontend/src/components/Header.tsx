@@ -40,12 +40,12 @@ export default function Header() {
   };
 
   const navLinks = [
-    { href: '#home', label: 'Home' },
-    { href: '#about', label: 'About' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#projects', label: 'Projects' },
+    { href: '/home', label: 'Home' },
+    { href: '/about', label: 'About' },
+    { href: '/skills', label: 'Skills' },
+    { href: '/projects', label: 'Projects' },
     { href: '/blog', label: 'Blog' },
-    { href: '#contact', label: 'Contact' },
+    { href: '/contact', label: 'Contact' },
   ];
 
   const toggleTheme = () => {
