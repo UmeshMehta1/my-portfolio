@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Umesh Mehta" }],
   creator: "Umesh Mehta",
   publisher: "Umesh Mehta",
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://umeshmehta.me"),
   alternates: {
     canonical: "/",
   },
