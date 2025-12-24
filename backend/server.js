@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const nodemailer = require('nodemailer');
+const cron = require('node-cron');
 require('dotenv').config();
 
 // Database connection
@@ -187,8 +188,38 @@ io.on('connection', async (socket) => {
 });
 
 // API Routes
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+
+// Track visitor via HTTP (for visitors who don't use socket.io)
+app.post('/api/visitor/track', async (req, res) => {
+  try {
+    const ipAddress = getClientIP(req);
+    const userAgent = req.headers['user-agent'] || 'unknown';
+    const referrer = req.headers.referer || req.body.referrer || '/';
+    const page = req.body.page || '/';
+
+    // Save visitor to database
+    const visitor = new Visitor({
+      ipAddress,
+      userAgent,
+      referrer,
+      page,
+      sessionId: req.body.sessionId || `http-${Date.now()}-${Math.random()}`,
+    });
+    await visitor.save();
+
+    // Get updated counts
+    const todayCount = await Visitor.getTodayCount();
+    const totalCount = await Visitor.getTotalCount();
+
+    res.json({
+      success: true,
+      todayVisitors: todayCount,
+      totalVisitors: totalCount,
+    });
+  } catch (error) {
+    console.error('Error tracking visitor:', error);
+    res.status(500).json({ error: 'Failed to track visitor' });
+  }
 });
 
 // Get statistics
@@ -197,16 +228,29 @@ app.get('/api/stats', async (req, res) => {
     const todayCount = await Visitor.getTodayCount();
     const totalCount = await Visitor.getTotalCount();
     const uniqueToday = await Visitor.getUniqueTodayCount();
+    const last7Days = await Visitor.getLast7DaysData();
     
     res.json({
       todayVisitors: todayCount,
       totalVisitors: totalCount,
       uniqueToday: uniqueToday,
       onlineUsers: onlineUsers.size,
+      last7Days: last7Days,
     });
   } catch (error) {
     console.error('Error getting stats:', error);
     res.status(500).json({ error: 'Failed to get statistics' });
+  }
+});
+
+// Get last 7 days visitor data
+app.get('/api/stats/last7days', async (req, res) => {
+  try {
+    const last7Days = await Visitor.getLast7DaysData();
+    res.json({ data: last7Days });
+  } catch (error) {
+    console.error('Error getting last 7 days data:', error);
+    res.status(500).json({ error: 'Failed to get last 7 days statistics' });
   }
 });
 
@@ -433,9 +477,36 @@ app.get('/api/blog', async (req, res) => {
 // Get single blog post
 app.get('/api/blog/:slug', async (req, res) => {
   try {
-    const post = await BlogPost.findOne({ slug: req.params.slug, published: true });
+    const requestedSlug = req.params.slug;
+    console.log('Requested slug:', requestedSlug);
+    
+    // Try exact match first
+    let post = await BlogPost.findOne({ slug: requestedSlug, published: true });
+    
+    // If not found, try case-insensitive match
     if (!post) {
-      return res.status(404).json({ error: 'Blog post not found' });
+      post = await BlogPost.findOne({ 
+        slug: { $regex: new RegExp(`^${requestedSlug}$`, 'i') }, 
+        published: true 
+      });
+    }
+    
+    // If still not found, try decoding the slug
+    if (!post) {
+      const decodedSlug = decodeURIComponent(requestedSlug);
+      post = await BlogPost.findOne({ slug: decodedSlug, published: true });
+    }
+    
+    if (!post) {
+      console.log('Blog post not found for slug:', requestedSlug);
+      // List available slugs for debugging
+      const allSlugs = await BlogPost.find({ published: true }).select('slug title');
+      console.log('Available slugs:', allSlugs.map(p => p.slug));
+      return res.status(404).json({ 
+        error: 'Blog post not found',
+        requestedSlug: requestedSlug,
+        availableSlugs: allSlugs.map(p => ({ slug: p.slug, title: p.title }))
+      });
     }
     
     // Increment views
@@ -444,7 +515,7 @@ app.get('/api/blog/:slug', async (req, res) => {
     res.json(post);
   } catch (error) {
     console.error('Error getting blog post:', error);
-    res.status(500).json({ error: 'Failed to get blog post' });
+    res.status(500).json({ error: 'Failed to get blog post', details: error.message });
   }
 });
 
@@ -472,8 +543,20 @@ app.use('/api/ai', aiRoutes);
 const uploadRoutes = require('./routes/upload');
 app.use('/api/upload', uploadRoutes);
 
+// Health check endpoint for cron job
+app.get('/api/health', (req, res) => {
+  res.json({
+    status: 'ok',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    dbConnected: dbConnected,
+    environment: process.env.NODE_ENV || 'development',
+  });
+});
+
 // Start server (only after MongoDB connection is established)
 const PORT = process.env.PORT || 5000;
+const BACKEND_URL = process.env.BACKEND_URL || `http://localhost:${PORT}`;
 
 // Initialize database connection and start server
 const startServer = async () => {
@@ -488,12 +571,130 @@ const startServer = async () => {
       console.log(`🔌 Socket.io server ready`);
       console.log(`📊 MongoDB connected and ready`);
       console.log(`🌐 Environment: ${process.env.NODE_ENV || 'development'}`);
+      
+      // Setup cron job to keep server awake (every 10 minutes)
+      setupKeepAliveCron();
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
     console.error('Please check your MongoDB connection string in .env file');
     process.exit(1);
   }
+};
+
+// Function to setup cron job for keeping server alive
+const setupKeepAliveCron = () => {
+  // Use http module for making requests (works in all Node.js versions)
+  const http = require('http');
+  const https = require('https');
+  const { URL } = require('url');
+  
+  const pingHealthEndpoint = () => {
+    return new Promise((resolve, reject) => {
+      try {
+        const url = new URL(`${BACKEND_URL}/api/health`);
+        const client = url.protocol === 'https:' ? https : http;
+        
+        const options = {
+          hostname: url.hostname,
+          port: url.port || (url.protocol === 'https:' ? 443 : 80),
+          path: url.pathname,
+          method: 'GET',
+          headers: {
+            'User-Agent': 'KeepAlive-Cron/1.0',
+          },
+          timeout: 10000, // 10 second timeout
+        };
+        
+        const req = client.request(options, (res) => {
+          let data = '';
+          res.on('data', (chunk) => {
+            data += chunk;
+          });
+          res.on('end', () => {
+            if (res.statusCode === 200) {
+              try {
+                const jsonData = JSON.parse(data);
+                resolve({
+                  success: true,
+                  status: res.statusCode,
+                  data: jsonData,
+                });
+              } catch (e) {
+                resolve({
+                  success: true,
+                  status: res.statusCode,
+                  data: { raw: data },
+                });
+              }
+            } else {
+              resolve({
+                success: false,
+                status: res.statusCode,
+                message: `HTTP ${res.statusCode}`,
+              });
+            }
+          });
+        });
+        
+        req.on('error', (error) => {
+          reject(error);
+        });
+        
+        req.on('timeout', () => {
+          req.destroy();
+          reject(new Error('Request timeout'));
+        });
+        
+        req.end();
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+  
+  // Cron job runs every 10 minutes: */10 * * * *
+  // This will hit the health endpoint to keep the server awake
+  cron.schedule('*/10 * * * *', async () => {
+    try {
+      console.log(`⏰ [${new Date().toISOString()}] Cron job: Pinging health endpoint...`);
+      
+      const result = await pingHealthEndpoint();
+      
+      if (result.success) {
+        const uptimeMinutes = Math.floor((result.data.uptime || 0) / 60);
+        console.log(`✅ Keep-alive ping successful:`, {
+          status: result.data.status || 'ok',
+          uptime: `${uptimeMinutes} minutes`,
+          dbConnected: result.data.dbConnected || false,
+        });
+      } else {
+        console.warn(`⚠️ Keep-alive ping returned status: ${result.status}`);
+      }
+    } catch (error) {
+      console.error('❌ Keep-alive cron job error:', error.message);
+      // Don't throw - just log the error so the server continues running
+    }
+  }, {
+    scheduled: true,
+    timezone: 'UTC',
+  });
+  
+  console.log('⏰ Cron job scheduled: Keep-alive ping every 10 minutes');
+  
+  // Also ping immediately on startup (after a delay)
+  setTimeout(async () => {
+    try {
+      const result = await pingHealthEndpoint();
+      if (result.success) {
+        console.log('✅ Initial keep-alive ping successful');
+      } else {
+        console.warn(`⚠️ Initial keep-alive ping returned status: ${result.status}`);
+      }
+    } catch (error) {
+      console.warn('⚠️ Initial keep-alive ping failed (server may still be starting):', error.message);
+    }
+  }, 5000); // Wait 5 seconds after server starts
 };
 
 // Start the application
