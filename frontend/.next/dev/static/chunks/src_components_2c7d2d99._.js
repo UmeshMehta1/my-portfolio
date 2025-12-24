@@ -39,16 +39,24 @@ function ThemeProvider({ children }) {
         "ThemeProvider.useEffect": ()=>{
             if (("TURBOPACK compile-time value", "object") === 'undefined' || !mounted) return;
             const root = window.document.documentElement;
-            root.classList.remove('light', 'dark');
+            // Resolve actual theme ('light' | 'dark')
             let resolved;
             if (theme === 'system') {
-                resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                resolved = prefersDark ? 'dark' : 'light';
             } else {
                 resolved = theme;
             }
+            // Update classes for Tailwind dark mode and CSS variable overrides
+            if (resolved === 'dark') {
+                root.classList.add('dark');
+                root.classList.remove('light');
+            } else {
+                root.classList.add('light');
+                root.classList.remove('dark');
+            }
             setResolvedTheme(resolved);
-            root.classList.add(resolved);
-            // Save to localStorage only on client
+            // Save preference
             if ("TURBOPACK compile-time truthy", 1) {
                 localStorage.setItem('theme', theme);
             }
@@ -68,7 +76,7 @@ function ThemeProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/components/ThemeProvider.tsx",
-        lineNumber: 67,
+        lineNumber: 74,
         columnNumber: 5
     }, this);
 }
@@ -119,9 +127,38 @@ function SocketProvider({ children }) {
     const [isConnected, setIsConnected] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
     const [visitorCount, setVisitorCount] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
     const [onlineUsers, setOnlineUsers] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(0);
+    // Track visitor via HTTP as fallback (ensures no visitors are lost)
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "SocketProvider.useEffect": ()=>{
-            const socketUrl = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$build$2f$polyfills$2f$process$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"].env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:5000';
+            const trackVisitor = {
+                "SocketProvider.useEffect.trackVisitor": async ()=>{
+                    try {
+                        const apiUrl = ("TURBOPACK compile-time value", "https://my-portfolio-72dq.onrender.com") || 'https://my-portfolio-72dq.onrender.com';
+                        const sessionId = sessionStorage.getItem('sessionId') || `session-${Date.now()}-${Math.random()}`;
+                        sessionStorage.setItem('sessionId', sessionId);
+                        await fetch(`${apiUrl}/api/visitor/track`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                page: window.location.pathname,
+                                referrer: document.referrer || '/',
+                                sessionId: sessionId
+                            })
+                        });
+                    } catch (error) {
+                        console.error('Error tracking visitor:', error);
+                    }
+                }
+            }["SocketProvider.useEffect.trackVisitor"];
+            // Track on mount
+            trackVisitor();
+        }
+    }["SocketProvider.useEffect"], []);
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "SocketProvider.useEffect": ()=>{
+            const socketUrl = ("TURBOPACK compile-time value", "https://my-portfolio-72dq.onrender.com") || ("TURBOPACK compile-time value", "https://my-portfolio-72dq.onrender.com") || 'https://my-portfolio-72dq.onrender.com';
             const newSocket = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$socket$2e$io$2d$client$2f$build$2f$esm$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$locals$3e$__["io"])(socketUrl, {
                 transports: [
                     'websocket',
@@ -176,11 +213,11 @@ function SocketProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/components/SocketProvider.tsx",
-        lineNumber: 65,
+        lineNumber: 95,
         columnNumber: 5
     }, this);
 }
-_s(SocketProvider, "eDb86dWFx/Oh+9dNhGEXh3vDoMw=");
+_s(SocketProvider, "DnhJLYiDCyB4E8AzfYJih5FTwdg=");
 _c = SocketProvider;
 function useSocket() {
     _s1();
