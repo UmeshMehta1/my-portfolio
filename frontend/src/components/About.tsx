@@ -89,7 +89,7 @@ export default function About() {
                 My Journey
               </h3>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                I'm Umesh Mehta, currently pursuing BCA 6th semester at Itahari Nauna College while working as a Full Stack Developer at Digital Pathshala. My journey in technology started with curiosity and has evolved into a career focused on building scalable applications and leading teams.
+                I'm Umesh Mehta, currently pursuing BCA 6th semester at Itahari Nauna College while working as a Full Stack Developer at <a href="https://www.digitalpathshalanepal.com/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">Digital Pathshala</a>. My journey in technology started with curiosity and has evolved into a career focused on building scalable applications and leading teams.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                 Starting as an intern, I progressed through roles as Supervisor and Project Manager, where I gained experience leading teams and collaborating with international clients. This experience taught me the importance of clear communication, strategic planning, and delivering quality solutions.
@@ -179,7 +179,18 @@ export default function About() {
                     </span>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-2 font-medium">
-                    {exp.company}
+                    {exp.company === 'Digital Pathshala' ? (
+                      <a 
+                        href="https://www.digitalpathshalanepal.com/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold"
+                      >
+                        {exp.company}
+                      </a>
+                    ) : (
+                      exp.company
+                    )}
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     {exp.description}
