@@ -3,6 +3,10 @@ import { notFound } from "next/navigation";
 import BlogPostDetail from "@/components/BlogPostDetail";
 import { apiUrl } from "@/lib/api";
 
+// Force dynamic rendering for blog posts (since they come from database)
+export const dynamic = 'force-dynamic';
+export const revalidate = 0; // Always fetch fresh data
+
 interface BlogPost {
   _id: string;
   title: string;
@@ -20,17 +24,30 @@ interface BlogPost {
 
 async function getBlogPost(slug: string): Promise<BlogPost | null> {
   try {
-    // Ensure slug is properly encoded
-    const encodedSlug = encodeURIComponent(slug);
-    const url = `${apiUrl}/api/blog/${encodedSlug}`;
+    // Clean and normalize the slug - remove any leading/trailing slashes or spaces
+    const cleanSlug = slug.trim().replace(/^\/+|\/+$/g, '');
     
+    // Build the URL - ensure no double slashes
+    const baseUrl = apiUrl.replace(/\/$/, '');
+    const url = `${baseUrl}/api/blog/${cleanSlug}`;
+    
+    // Use cache: 'no-store' for dynamic rendering
     const res = await fetch(url, {
-      next: { revalidate: 3600 }, // Revalidate every hour
+      cache: 'no-store', // Always fetch fresh data
+      headers: {
+        'Content-Type': 'application/json',
+      },
     });
 
     if (!res.ok) {
       if (res.status === 404) {
-        console.error(`Blog post not found: ${slug}`);
+        // Try to get error details
+        try {
+          const errorData = await res.json();
+          console.error(`Blog post not found: ${cleanSlug}`, errorData);
+        } catch {
+          console.error(`Blog post not found: ${cleanSlug} (404)`);
+        }
       } else {
         console.error(`Failed to fetch blog post: ${res.status} ${res.statusText}`);
       }
@@ -38,9 +55,19 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
     }
 
     const data = await res.json();
+    
+    // Verify we got valid data
+    if (!data || !data.slug) {
+      console.error('Invalid blog post data received');
+      return null;
+    }
+    
     return data;
   } catch (error) {
     console.error("Error fetching blog post:", error);
+    if (error instanceof Error) {
+      console.error("Error details:", error.message);
+    }
     return null;
   }
 }
@@ -48,9 +75,13 @@ async function getBlogPost(slug: string): Promise<BlogPost | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }> | { slug: string };
 }): Promise<Metadata> {
-  const post = await getBlogPost(params.slug);
+  // Handle both Promise and direct params (Next.js 13+ compatibility)
+  const resolvedParams = params instanceof Promise ? await params : params;
+  const slug = resolvedParams.slug;
+  
+  const post = await getBlogPost(slug);
 
   if (!post) {
     return {
@@ -125,14 +156,29 @@ export async function generateMetadata({
 export default async function BlogPostPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }> | { slug: string };
 }) {
-  const post = await getBlogPost(params.slug);
+  try {
+    // Handle both Promise and direct params (Next.js 15+ uses Promise)
+    const resolvedParams = params instanceof Promise ? await params : params;
+    const slug = resolvedParams?.slug;
+    
+    if (!slug || typeof slug !== 'string') {
+      console.error('Invalid slug parameter:', slug);
+      notFound();
+    }
+    
+    const post = await getBlogPost(slug);
 
-  if (!post) {
+    if (!post) {
+      console.error('Blog post not found for slug:', slug);
+      notFound();
+    }
+
+    return <BlogPostDetail post={post} />;
+  } catch (error) {
+    console.error('Error in BlogPostPage:', error);
     notFound();
   }
-
-  return <BlogPostDetail post={post} />;
 }
 
