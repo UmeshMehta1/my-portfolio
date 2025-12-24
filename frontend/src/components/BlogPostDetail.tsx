@@ -35,14 +35,20 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
   marked.setOptions({
     breaks: true,
     gfm: true,
-    headerIds: true,
-    mangle: false,
   });
 
   // Convert markdown to HTML
-  const htmlContent = useMemo(() => {
+  const htmlContent = useMemo((): string => {
     try {
-      return marked.parse(post.content);
+      const parsed = marked.parse(post.content);
+      // marked.parse can return string or Promise<string>
+      // Ensure we always return a string
+      if (typeof parsed === 'string') {
+        return parsed;
+      }
+      // If it's a Promise (shouldn't happen with default config), return content as-is
+      // In practice, marked.parse returns string synchronously
+      return post.content;
     } catch (error) {
       console.error('Error parsing markdown:', error);
       return post.content; // Fallback to raw content
