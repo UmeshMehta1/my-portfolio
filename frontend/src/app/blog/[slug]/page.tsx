@@ -48,6 +48,9 @@ export async function generateMetadata({
     };
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const postUrl = `${siteUrl}/blog/${post.slug}`;
+
   return {
     title: `${post.title} | Umesh Mehta - Full Stack Developer Blog`,
     description: post.excerpt,
@@ -58,16 +61,26 @@ export async function generateMetadata({
       "Next.js",
       "React",
       "Node.js",
+      "TypeScript",
+      "PostgreSQL",
       "full stack development",
       post.category,
+      "coding tutorials",
+      "programming blog",
+      "software engineering",
+      "web development tips",
     ],
+    authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
       description: post.excerpt,
       type: "article",
+      url: postUrl,
       publishedTime: post.publishedAt,
+      modifiedTime: post.publishedAt,
       authors: [post.author],
       tags: post.tags,
+      section: post.category,
       images: post.imageUrl
         ? [
             {
@@ -77,16 +90,24 @@ export async function generateMetadata({
               alt: post.title,
             },
           ]
-        : [],
+        : [
+            {
+              url: `${siteUrl}/og-image.jpg`,
+              width: 1200,
+              height: 630,
+              alt: post.title,
+            },
+          ],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.excerpt,
-      images: post.imageUrl ? [post.imageUrl] : [],
+      creator: "@hello__umesh",
+      images: post.imageUrl ? [post.imageUrl] : [`${siteUrl}/og-image.jpg`],
     },
     alternates: {
-      canonical: `/blog/${post.slug}`,
+      canonical: postUrl,
     },
   };
 }

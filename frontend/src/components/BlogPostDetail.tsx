@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -83,7 +84,8 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
               <div className="mb-8 rounded-lg overflow-hidden">
                 <img
                   src={post.imageUrl}
-                  alt={post.title}
+                  alt={`${post.title} - Featured image for blog post about ${post.category}`}
+                  title={post.title}
                   className="w-full h-auto object-cover"
                 />
               </div>

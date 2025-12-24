@@ -2,12 +2,18 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://yourdomain.com/sitemap.xml
+Sitemap: https://umeshmehta.me/sitemap.xml
 
 # Disallow admin and API routes
 Disallow: /api/
 Disallow: /admin/
+Disallow: /_next/
 
-# Allow all other routes
+# Allow important pages
 Allow: /
+Allow: /blog
+Allow: /blog/*
+
+# Crawl-delay for bots (optional, helps with server load)
+Crawl-delay: 1
 

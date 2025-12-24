@@ -156,6 +156,19 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#10b981" />
+        
+        {/* Preconnect to external domains for better performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://my-portfolio-72dq.onrender.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        
+        {/* Additional SEO meta tags */}
+        <meta name="author" content="Umesh Mehta" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
+        <meta name="distribution" content="global" />
+        <meta name="rating" content="general" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -187,10 +200,84 @@ export default function RootLayout({
                 "Next.js",
                 "Node.js",
                 "MongoDB",
+                "PostgreSQL",
+                "Express.js",
                 "Full Stack Development",
                 "Project Management",
                 "Team Leadership",
+                "API Development",
+                "Database Design",
+                "Software Architecture",
               ],
+              description: "Full Stack Developer with 5+ years of experience in MERN stack, leading teams, and mentoring 150+ students. Specialized in React, Next.js, Node.js, PostgreSQL, and building scalable web applications.",
+              image: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/og-image.jpg`,
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              name: "Umesh Mehta Portfolio",
+              url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+              description: "Portfolio of Umesh Mehta - Full Stack Developer, Project Manager, and Tech Mentor. Building scalable web applications, leading teams, and mentoring 150+ students in MERN stack development.",
+              publisher: {
+                "@type": "Person",
+                name: "Umesh Mehta"
+              },
+              potentialAction: {
+                "@type": "SearchAction",
+                target: {
+                  "@type": "EntryPoint",
+                  urlTemplate: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/blog?search={search_term_string}`
+                },
+                "query-input": "required name=search_term_string"
+              },
+              inLanguage: "en-US"
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Blog",
+              name: "Umesh Mehta Blog",
+              url: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/blog`,
+              description: "Blog about web development, MERN stack, Next.js, React, Node.js, TypeScript, PostgreSQL, and software engineering. Learn from a Full Stack Developer with 5+ years of experience.",
+              author: {
+                "@type": "Person",
+                name: "Umesh Mehta",
+                url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"
+              },
+              publisher: {
+                "@type": "Person",
+                name: "Umesh Mehta"
+              },
+              inLanguage: "en-US"
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "Umesh Mehta - Full Stack Development Services",
+              url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+              description: "Full Stack Development Services - React, Next.js, Node.js, PostgreSQL, MERN Stack Development",
+              founder: {
+                "@type": "Person",
+                name: "Umesh Mehta"
+              },
+              sameAs: [
+                "https://www.linkedin.com/in/umeshmehta1245/",
+                "https://github.com/UmeshMehta1",
+              ]
             }),
           }}
         />

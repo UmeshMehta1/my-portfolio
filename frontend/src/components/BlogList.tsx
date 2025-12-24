@@ -129,7 +129,9 @@ export default function BlogList() {
                         <div className="relative h-48 overflow-hidden">
                           <img
                             src={post.imageUrl}
-                            alt={post.title}
+                            alt={`${post.title} - Blog post by ${post.author}`}
+                            title={post.title}
+                            loading="lazy"
                             className="w-full h-full object-cover"
                           />
                         </div>
