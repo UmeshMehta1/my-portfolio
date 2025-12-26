@@ -106,9 +106,17 @@ export default function Footer() {
             <h3 className="text-2xl font-bold text-white mb-4 bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent">
               Portfolio
             </h3>
-            <p className="text-gray-400">
+            <p className="text-gray-400 mb-4">
               Building amazing digital experiences with modern technologies.
             </p>
+            <div className="space-y-2 text-sm text-gray-400">
+              <p>
+                <a href="tel:+9779817329620" className="hover:text-white transition-colors">
+                  +977-981-7329620
+                </a>
+              </p>
+              <p>M7QC+7PC RCT Market, Itahari 56705</p>
+            </div>
           </div>
 
           <div>

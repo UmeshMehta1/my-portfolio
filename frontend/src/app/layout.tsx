@@ -272,7 +272,7 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "Umesh Mehta - Full Stack Development Services",
+              name: "Umesh Mehta - Full Stack Developer",
               url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
               description: "Full Stack Development Services - React, Next.js, Node.js, PostgreSQL, MERN Stack Development",
               founder: {
@@ -283,6 +283,137 @@ export default function RootLayout({
                 "https://www.linkedin.com/in/umeshmehta1245/",
                 "https://github.com/UmeshMehta1",
               ]
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify((() => {
+              const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+              const localBusiness: any = {
+                "@context": "https://schema.org",
+                "@type": "LocalBusiness",
+                "@id": `${baseUrl}#business`,
+                name: "Umesh Mehta - Full Stack Developer",
+                description: "Professional Full Stack Development Services specializing in MERN stack, React, Next.js, Node.js, PostgreSQL, and custom web application development. Offering project management, team leadership, and tech mentorship services.",
+                url: baseUrl,
+                image: `${baseUrl}/og-image.jpg`,
+                telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+977-981-7329620",
+                email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL || "hello@umeshmehta.me",
+                priceRange: "$$",
+                address: {
+                  "@type": "PostalAddress",
+                  streetAddress: process.env.NEXT_PUBLIC_BUSINESS_STREET || "M7QC+7PC RCT Market",
+                  addressLocality: process.env.NEXT_PUBLIC_BUSINESS_CITY || "Itahari",
+                  postalCode: process.env.NEXT_PUBLIC_BUSINESS_POSTAL || "56705",
+                  addressRegion: process.env.NEXT_PUBLIC_BUSINESS_STATE || "Sunsari",
+                  addressCountry: process.env.NEXT_PUBLIC_BUSINESS_COUNTRY || "NP"
+                },
+                areaServed: {
+                  "@type": "Country",
+                  name: "Nepal"
+                },
+                hasOfferCatalog: {
+                  "@type": "OfferCatalog",
+                  name: "Web Development Services",
+                  itemListElement: [
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Full Stack Web Development",
+                        description: "MERN stack development, React, Next.js, Node.js applications"
+                      }
+                    },
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Project Management",
+                        description: "Team leadership and project management services"
+                      }
+                    },
+                    {
+                      "@type": "Offer",
+                      itemOffered: {
+                        "@type": "Service",
+                        name: "Tech Mentorship",
+                        description: "MERN stack training and mentorship for students"
+                      }
+                    }
+                  ]
+                },
+                sameAs: [
+                  "https://www.linkedin.com/in/umeshmehta1245/",
+                  "https://github.com/UmeshMehta1",
+                  "https://www.tiktok.com/@hello__umesh",
+                  "https://www.facebook.com/umesh.mehta.980967"
+                ],
+                openingHoursSpecification: [
+                  {
+                    "@type": "OpeningHoursSpecification",
+                    dayOfWeek: [
+                      "Monday",
+                      "Tuesday",
+                      "Wednesday",
+                      "Thursday",
+                      "Friday",
+                      "Saturday",
+                      "Sunday"
+                    ],
+                    opens: "00:00",
+                    closes: "23:59"
+                  }
+                ]
+              };
+              
+              // Add geo coordinates only if both lat and lng are provided
+              if (process.env.NEXT_PUBLIC_BUSINESS_LAT && process.env.NEXT_PUBLIC_BUSINESS_LNG) {
+                localBusiness.geo = {
+                  "@type": "GeoCoordinates",
+                  latitude: process.env.NEXT_PUBLIC_BUSINESS_LAT,
+                  longitude: process.env.NEXT_PUBLIC_BUSINESS_LNG
+                };
+              }
+              
+              return localBusiness;
+            })()),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ProfessionalService",
+              name: "Umesh Mehta - Full Stack Development",
+              description: "Professional Full Stack Development Services - React, Next.js, Node.js, PostgreSQL, MERN Stack",
+              url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+              provider: {
+                "@type": "Person",
+                name: "Umesh Mehta",
+                jobTitle: "Full Stack Developer",
+                worksFor: {
+                  "@type": "Organization",
+                  name: "Digital Pathshala"
+                }
+              },
+              areaServed: {
+                "@type": "Country",
+                name: "Nepal"
+              },
+              serviceType: [
+                "Web Development",
+                "Full Stack Development",
+                "Project Management",
+                "Tech Mentorship",
+                "MERN Stack Development"
+              ],
+              offers: {
+                "@type": "Offer",
+                description: "Custom web application development, project management, and tech mentorship services"
+              }
             }),
           }}
         />
