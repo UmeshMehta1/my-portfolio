@@ -72,14 +72,14 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
         } : {}}
       >
         {backgroundImage && (
-          <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-0 transition-colors duration-300" />
+          <div className="absolute inset-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm z-0 transition-all duration-300" />
         )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="max-w-4xl mx-auto"
+            className="max-w-4xl mx-auto text-gray-900 dark:text-white"
           >
             {/* Back Button */}
             <Link

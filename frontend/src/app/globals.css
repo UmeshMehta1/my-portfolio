@@ -130,29 +130,34 @@ html {
   background: #555;
 }
 
-@media (prefers-color-scheme: dark) {
-  ::-webkit-scrollbar-track {
-    background: #1f1f1f;
-  }
+.dark ::-webkit-scrollbar-track {
+  background: #1f1f1f;
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: #555;
-  }
+.dark ::-webkit-scrollbar-thumb {
+  background: #555;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #777;
-  }
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #777;
 }
 
 /* Blog Background Image - Responsive */
 .blog-background-image {
   background-attachment: scroll;
+  transition: background-color 0.3s ease;
 }
 
 @media (min-width: 768px) {
   .blog-background-image {
     background-attachment: fixed;
   }
+}
+
+/* Ensure content on background image is readable in both themes */
+.blog-background-image .container {
+  position: relative;
+  z-index: 10;
 }
 
 /* Blog Content Styling */
