@@ -43,7 +43,6 @@ export default function Contact() {
 
   const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    setSubmitStatus(null);
 
     try {
       const response = await fetch('/api/contact', {

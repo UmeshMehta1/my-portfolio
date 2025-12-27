@@ -42,7 +42,7 @@ export default function ShareButtons({
   };
 
   const handleNativeShare = async () => {
-    if (navigator.share) {
+    if (typeof navigator !== 'undefined' && 'share' in navigator) {
       try {
         await navigator.share(shareData);
         showToast('Shared successfully!', 'success');
@@ -85,9 +85,11 @@ export default function ShareButtons({
     window.open(whatsappUrl, '_blank');
   };
 
+  const hasNativeShare = typeof navigator !== 'undefined' && 'share' in navigator;
+
   return (
     <div className={`flex items-center gap-2 ${className}`}>
-      {navigator.share && (
+      {hasNativeShare && (
         <button
           onClick={handleNativeShare}
           className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
