@@ -63,7 +63,7 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
     <>
       <Header />
       <article 
-        className={`py-8 sm:py-12 md:py-16 lg:py-20 min-h-screen relative ${backgroundImage ? 'blog-background-image' : 'bg-white dark:bg-gray-800'}`}
+        className={`py-8 sm:py-12 md:py-16 lg:py-20 min-h-screen relative transition-colors duration-300 ${backgroundImage ? 'blog-background-image' : 'bg-white dark:bg-gray-800'}`}
         style={backgroundImage ? {
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
@@ -72,7 +72,7 @@ export default function BlogPostDetail({ post }: { post: BlogPost }) {
         } : {}}
       >
         {backgroundImage && (
-          <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-0" />
+          <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm z-0 transition-colors duration-300" />
         )}
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div
