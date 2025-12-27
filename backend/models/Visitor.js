@@ -28,6 +28,7 @@ const visitorSchema = new mongoose.Schema({
 // Index for faster queries
 visitorSchema.index({ timestamp: -1 });
 visitorSchema.index({ ipAddress: 1, timestamp: -1 });
+visitorSchema.index({ sessionId: 1, timestamp: -1 });
 
 // Static method to get today's visitor count
 visitorSchema.statics.getTodayCount = async function() {

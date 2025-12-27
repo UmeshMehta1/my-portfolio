@@ -145,34 +145,62 @@ io.on('connection', async (socket) => {
   // Get client info
   const clientIP = socket.handshake.address || 'unknown';
   const userAgent = socket.handshake.headers['user-agent'] || 'unknown';
+  let sessionId = socket.id;
+  let page = socket.handshake.headers.referer || '/';
+  let referrer = socket.handshake.headers.referer || '/';
   
-  // Save visitor to database
-  try {
-    const visitor = new Visitor({
-      ipAddress: clientIP,
-      userAgent: userAgent,
-      sessionId: socket.id,
-      page: socket.handshake.headers.referer || '/',
-    });
-    await visitor.save();
-  } catch (error) {
-    console.error('Error saving visitor:', error);
-  }
-  
-  // Get and emit visitor counts
-  try {
-    const todayCount = await Visitor.getTodayCount();
-    const totalCount = await Visitor.getTotalCount();
-    const uniqueToday = await Visitor.getUniqueTodayCount();
+  // Listen for visitor info from client (includes sessionId for deduplication)
+  socket.on('visitor-info', async (data) => {
+    if (data.sessionId) {
+      sessionId = data.sessionId;
+    }
+    if (data.page) {
+      page = data.page;
+    }
+    if (data.referrer) {
+      referrer = data.referrer;
+    }
     
-    io.emit('visitorCount', todayCount);
-    io.emit('totalVisitors', totalCount);
-    io.emit('uniqueToday', uniqueToday);
-    io.emit('onlineUsers', onlineUsers.size);
-    io.emit('newVisitor', { count: todayCount });
-  } catch (error) {
-    console.error('Error getting visitor counts:', error);
-  }
+    // Check if visitor with this sessionId was already tracked today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const existingVisitor = await Visitor.findOne({
+      sessionId: sessionId,
+      timestamp: { $gte: today }
+    });
+    
+    // Only save if not already tracked today
+    if (!existingVisitor) {
+      try {
+        const visitor = new Visitor({
+          ipAddress: clientIP,
+          userAgent: userAgent,
+          sessionId: sessionId,
+          page: page,
+          referrer: referrer,
+        });
+        await visitor.save();
+      } catch (error) {
+        console.error('Error saving visitor:', error);
+      }
+    }
+    
+    // Get and emit visitor counts
+    try {
+      const todayCount = await Visitor.getTodayCount();
+      const totalCount = await Visitor.getTotalCount();
+      const uniqueToday = await Visitor.getUniqueTodayCount();
+      
+      io.emit('visitorCount', todayCount);
+      io.emit('totalVisitors', totalCount);
+      io.emit('uniqueToday', uniqueToday);
+      io.emit('onlineUsers', onlineUsers.size);
+      io.emit('newVisitor', { count: todayCount });
+    } catch (error) {
+      console.error('Error getting visitor counts:', error);
+    }
+  });
 
   socket.on('disconnect', () => {
     console.log('User disconnected:', socket.id);
@@ -196,16 +224,28 @@ app.post('/api/visitor/track', async (req, res) => {
     const userAgent = req.headers['user-agent'] || 'unknown';
     const referrer = req.headers.referer || req.body.referrer || '/';
     const page = req.body.page || '/';
+    const sessionId = req.body.sessionId || `http-${Date.now()}-${Math.random()}`;
 
-    // Save visitor to database
-    const visitor = new Visitor({
-      ipAddress,
-      userAgent,
-      referrer,
-      page,
-      sessionId: req.body.sessionId || `http-${Date.now()}-${Math.random()}`,
+    // Check if visitor with this sessionId was already tracked today
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const existingVisitor = await Visitor.findOne({
+      sessionId: sessionId,
+      timestamp: { $gte: today }
     });
-    await visitor.save();
+    
+    // Only save if not already tracked today
+    if (!existingVisitor) {
+      const visitor = new Visitor({
+        ipAddress,
+        userAgent,
+        referrer,
+        page,
+        sessionId: sessionId,
+      });
+      await visitor.save();
+    }
 
     // Get updated counts
     const todayCount = await Visitor.getTodayCount();
