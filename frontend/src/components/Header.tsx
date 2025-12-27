@@ -136,25 +136,9 @@ export default function Header() {
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
-            {/* Visitor Graph - Hidden on very small screens, visible on sm+ */}
-            <div className="hidden sm:block">
+            {/* Visitor Graph - Visible on all screens including mobile */}
+            <div className="block">
               <VisitorGraph />
-            </div>
-
-            {/* Mobile: Compact visitor stats - Only show if visitor graph is hidden */}
-            <div className="sm:hidden flex items-center gap-1.5">
-              {visitorCount > 0 && (
-                <div className="flex items-center gap-1 text-xs">
-                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">{visitorCount}</span>
-                </div>
-              )}
-              {onlineUsers > 0 && (
-                <div className="flex items-center gap-1 text-xs">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                  <span className="text-gray-700 dark:text-gray-300 font-medium">{onlineUsers}</span>
-                </div>
-              )}
             </div>
 
             {/* Search Bar - Visible on all screens */}
@@ -232,8 +216,8 @@ export default function Header() {
               className="md:hidden mt-3 sm:mt-4 space-y-3 sm:space-y-4 pb-3 sm:pb-4"
             >
               {/* Mobile Visitor Stats */}
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4">
+              <div className="flex flex-col items-start gap-3 p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div className="flex flex-wrap items-center gap-3 w-full">
                   {visitorCount > 0 && (
                     <div className="flex items-center gap-2">
                       <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -253,8 +237,8 @@ export default function Header() {
                     </div>
                   )}
                 </div>
-                {/* 7-day visitor graph in mobile menu */}
-                <div className="hidden sm:block">
+                {/* 7-day visitor graph in mobile menu - visible on all mobile sizes */}
+                <div className="w-full">
                   <VisitorGraph />
                 </div>
               </div>
