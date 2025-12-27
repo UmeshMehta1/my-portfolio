@@ -93,11 +93,12 @@ export default function Header() {
           : 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm'
       } border-b border-gray-200 dark:border-gray-800`}
     >
-      <nav className="container mx-auto px-6 py-4">
+      <nav className="container mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
+          {/* Portfolio Logo - Hidden on mobile */}
           <Link
             href="/"
-            className="text-2xl font-display bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent tracking-tight"
+            className="hidden md:block text-2xl font-display bg-gradient-to-r from-emerald-600 to-green-600 bg-clip-text text-transparent tracking-tight"
           >
             Portfolio
           </Link>
@@ -133,14 +134,32 @@ export default function Header() {
             })}
           </div>
 
-          <div className="flex items-center gap-4">
-            {/* Visitor Graph */}
-            <VisitorGraph />
+          <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
+            {/* Visitor Graph - Visible on all screens */}
+            <div className="hidden sm:block">
+              <VisitorGraph />
+            </div>
 
-            {/* Search Bar */}
+            {/* Mobile: Compact visitor stats */}
+            <div className="sm:hidden flex items-center gap-2">
+              {visitorCount > 0 && (
+                <div className="flex items-center gap-1 text-xs">
+                  <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">{visitorCount}</span>
+                </div>
+              )}
+              {onlineUsers > 0 && (
+                <div className="flex items-center gap-1 text-xs">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                  <span className="text-gray-700 dark:text-gray-300 font-medium">{onlineUsers}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Search Bar - Visible on all screens */}
             <SearchBar />
 
-            {/* Real-time Stats */}
+            {/* Real-time Stats - Desktop and Tablet */}
             <div className="hidden lg:flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
               {visitorCount > 0 && (
                 <div className="flex items-center gap-1">
@@ -175,7 +194,7 @@ export default function Header() {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden text-gray-700 dark:text-gray-300"
+              className="md:hidden text-gray-700 dark:text-gray-300 p-2"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -207,6 +226,34 @@ export default function Header() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden mt-4 space-y-4 pb-4"
             >
+              {/* Mobile Visitor Stats */}
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div className="flex items-center gap-4">
+                  {visitorCount > 0 && (
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Today</span>
+                        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">{visitorCount} visitors</span>
+                      </div>
+                    </div>
+                  )}
+                  {onlineUsers > 0 && (
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 bg-emerald-500 rounded-full" />
+                      <div className="flex flex-col">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Online</span>
+                        <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">{onlineUsers} users</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* 7-day visitor graph in mobile menu */}
+                <div className="hidden sm:block">
+                  <VisitorGraph />
+                </div>
+              </div>
+
               {navLinks.map((link) => {
                 // For hash links, use button for smooth scroll
                 // For regular links like /blog, use normal Link
@@ -217,7 +264,7 @@ export default function Header() {
                       onClick={() => {
                         handleNavClick(link.href);
                       }}
-                      className="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium bg-transparent border-none cursor-pointer"
+                      className="block w-full text-left text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium bg-transparent border-none cursor-pointer py-2"
                     >
                       {link.label}
                     </button>
@@ -229,7 +276,7 @@ export default function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium"
+                    className="block text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors font-medium py-2"
                   >
                     {link.label}
                   </Link>

@@ -44,19 +44,19 @@ export default function VisitorGraph() {
   const maxCount = Math.max(...data.map(d => d.count), 1);
 
   return (
-    <div className="flex items-center gap-3 text-xs md:text-sm">
+    <div className="flex items-center gap-2 sm:gap-3 text-xs md:text-sm">
       {/* Compact label + total */}
       <div className="flex flex-col justify-center">
-        <span className="text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
+        <span className="text-[9px] sm:text-[10px] uppercase tracking-wide text-gray-500 dark:text-gray-400">
           Visitors (7d)
         </span>
-        <span className="font-semibold text-emerald-700 dark:text-emerald-300">
+        <span className="font-semibold text-emerald-700 dark:text-emerald-300 text-xs sm:text-sm">
           {total.toLocaleString()}
         </span>
       </div>
 
       {/* Inline mini line chart */}
-      <div className="relative h-8 w-24 md:w-32">
+      <div className="relative h-7 sm:h-8 w-20 sm:w-24 md:w-32">
         <svg viewBox="0 0 100 30" className="w-full h-full">
           {/* Background */}
           <rect

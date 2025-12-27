@@ -60,7 +60,7 @@ export default function Hero() {
           >
             <div className="text-xl md:text-3xl font-heading text-gray-600 dark:text-gray-300">
               I'm a{' '}
-              <span className="inline-block min-w-[300px] text-emerald-600 dark:text-emerald-400 font-heading font-semibold">
+              <span className="inline-block min-w-[200px] sm:min-w-[250px] md:min-w-[300px] text-emerald-600 dark:text-emerald-400 font-heading font-semibold">
                 <motion.span
                   key={currentRole}
                   initial={{ opacity: 0, y: 20 }}
