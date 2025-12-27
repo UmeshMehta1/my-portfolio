@@ -477,12 +477,18 @@ app.get('/api/projects', async (req, res) => {
     if (featured === 'true') query.featured = true;
     
     const projects = await Project.find(query)
-      .sort({ featured: -1, order: 1, createdAt: -1 });
+      .sort({ featured: -1, order: 1, createdAt: -1 })
+      .lean(); // Use lean() for better performance
+    
+    console.log(`📊 Found ${projects.length} projects matching query:`, query);
     
     res.json(projects);
   } catch (error) {
-    console.error('Error getting projects:', error);
-    res.status(500).json({ error: 'Failed to get projects' });
+    console.error('❌ Error getting projects:', error);
+    res.status(500).json({ 
+      error: 'Failed to get projects',
+      message: error.message 
+    });
   }
 });
 
