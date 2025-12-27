@@ -30,19 +30,29 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Umesh Mehta | Full Stack Developer & Tech Mentor",
+    default: "Umesh Mehta | Best Developer in Nepal, Koshi Province & Itahari | Full Stack Developer",
     template: "%s | Umesh Mehta Portfolio",
   },
   description:
-    "Full Stack Developer at Digital Pathshala, BCA student at Itahari Nauna College. Building scalable web applications, leading teams, and mentoring 150+ students in MERN stack. Experience with international clients and major projects including Tax & Beyond (USA CRM), Hamrotask Australia, SaaS POS, UpayaX, and Share Bazar Insights.",
+    "Best Developer in Nepal, Koshi Province, and Itahari. Full Stack Developer at Digital Pathshala, BCA student at Itahari Nauna College. Building scalable web applications, leading teams, and mentoring 150+ students in MERN stack. Experience with international clients and major projects including Tax & Beyond (USA CRM), Hamrotask Australia, SaaS POS, UpayaX, and Share Bazar Insights.",
   keywords: [
     "Umesh Mehta",
-    "full stack developer",
-    "MERN stack",
-    "web developer",
-    "React developer",
-    "Next.js developer",
-    "Node.js developer",
+    "Best developer in Nepal",
+    "Best developer in Koshi Province",
+    "Best developer in Itahari",
+    "Best Developer in Nepal Koshi Province",
+    "developer in Nepal",
+    "developer in Koshi Province",
+    "developer in Itahari",
+    "full stack developer Nepal",
+    "full stack developer Itahari",
+    "full stack developer Koshi Province",
+    "web developer Nepal",
+    "web developer Itahari",
+    "MERN stack developer Nepal",
+    "React developer Nepal",
+    "Next.js developer Nepal",
+    "Node.js developer Nepal",
     "TypeScript developer",
     "PostgreSQL developer",
     "project manager",
@@ -51,8 +61,8 @@ export const metadata: Metadata = {
     "Digital Pathshala",
     "Code for Change",
     "portfolio",
-    "software engineer",
-    "web development services",
+    "software engineer Nepal",
+    "web development services Nepal",
     "full stack development",
     "React.js tutorials",
     "Next.js tutorials",
@@ -82,9 +92,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: "Umesh Mehta Portfolio",
-    title: "Umesh Mehta | Full Stack Developer & Tech Mentor",
+    title: "Umesh Mehta | Best Developer in Nepal, Koshi Province & Itahari | Full Stack Developer",
     description:
-      "Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications, leading teams, and mentoring 150+ students in MERN stack development.",
+      "Best Developer in Nepal, Koshi Province, and Itahari. Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications, leading teams, and mentoring 150+ students in MERN stack development.",
     images: [
       {
         url: "/og-image.jpg",
@@ -96,9 +106,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Umesh Mehta | Full Stack Developer & Tech Mentor",
+    title: "Umesh Mehta | Best Developer in Nepal, Koshi Province & Itahari",
     description:
-      "Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications and mentoring 150+ students.",
+      "Best Developer in Nepal, Koshi Province, and Itahari. Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications and mentoring 150+ students.",
     images: ["/og-image.jpg"],
     creator: "@hello__umesh",
   },
@@ -217,7 +227,19 @@ export default function RootLayout({
               },
               alumniOf: {
                 "@type": "EducationalOrganization",
-                name: "Itahari Nauna College"
+                name: "Itahari Nauna College",
+                address: {
+                  "@type": "PostalAddress",
+                  addressLocality: "Itahari",
+                  addressRegion: "Koshi Province",
+                  addressCountry: "NP"
+                }
+              },
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Itahari",
+                addressRegion: "Koshi Province",
+                addressCountry: "NP"
               },
               url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
               sameAs: [
@@ -243,7 +265,7 @@ export default function RootLayout({
                 "Database Design",
                 "Software Architecture",
               ],
-              description: "Full Stack Developer with 5+ years of experience in MERN stack, leading teams, and mentoring 150+ students. Specialized in React, Next.js, Node.js, PostgreSQL, and building scalable web applications.",
+              description: "Best Developer in Nepal, Koshi Province, and Itahari. Full Stack Developer with 5+ years of experience in MERN stack, leading teams, and mentoring 150+ students. Specialized in React, Next.js, Node.js, PostgreSQL, and building scalable web applications.",
               image: `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/og-image.jpg`,
             }),
           }}
@@ -324,8 +346,8 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "LocalBusiness",
                 "@id": `${baseUrl}#business`,
-                name: "Umesh Mehta - Full Stack Developer",
-                description: "Professional Full Stack Development Services specializing in MERN stack, React, Next.js, Node.js, PostgreSQL, and custom web application development. Offering project management, team leadership, and tech mentorship services.",
+                name: "Umesh Mehta - Best Developer in Nepal, Koshi Province & Itahari",
+                description: "Best Developer in Nepal, Koshi Province, and Itahari. Professional Full Stack Development Services specializing in MERN stack, React, Next.js, Node.js, PostgreSQL, and custom web application development. Offering project management, team leadership, and tech mentorship services.",
                 url: baseUrl,
                 image: `${baseUrl}/og-image.jpg`,
                 telephone: process.env.NEXT_PUBLIC_BUSINESS_PHONE || "+977-981-7329620",
@@ -336,13 +358,23 @@ export default function RootLayout({
                   streetAddress: process.env.NEXT_PUBLIC_BUSINESS_STREET || "M7QC+7PC RCT Market",
                   addressLocality: process.env.NEXT_PUBLIC_BUSINESS_CITY || "Itahari",
                   postalCode: process.env.NEXT_PUBLIC_BUSINESS_POSTAL || "56705",
-                  addressRegion: process.env.NEXT_PUBLIC_BUSINESS_STATE || "Sunsari",
+                  addressRegion: process.env.NEXT_PUBLIC_BUSINESS_STATE || "Koshi Province",
                   addressCountry: process.env.NEXT_PUBLIC_BUSINESS_COUNTRY || "NP"
                 },
-                areaServed: {
-                  "@type": "Country",
-                  name: "Nepal"
-                },
+                areaServed: [
+                  {
+                    "@type": "Country",
+                    name: "Nepal"
+                  },
+                  {
+                    "@type": "State",
+                    name: "Koshi Province"
+                  },
+                  {
+                    "@type": "City",
+                    name: "Itahari"
+                  }
+                ],
                 hasOfferCatalog: {
                   "@type": "OfferCatalog",
                   name: "Web Development Services",
@@ -428,10 +460,20 @@ export default function RootLayout({
                   name: "Digital Pathshala"
                 }
               },
-              areaServed: {
-                "@type": "Country",
-                name: "Nepal"
-              },
+              areaServed: [
+                {
+                  "@type": "Country",
+                  name: "Nepal"
+                },
+                {
+                  "@type": "State",
+                  name: "Koshi Province"
+                },
+                {
+                  "@type": "City",
+                  name: "Itahari"
+                }
+              ],
               serviceType: [
                 "Web Development",
                 "Full Stack Development",

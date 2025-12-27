@@ -81,7 +81,7 @@ export default function Hero() {
             className="text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto"
           >
             I build beautiful, functional, and user-centered digital experiences.
-            Welcome to my portfolio.
+            Welcome to my portfolio. Based in Itahari, Koshi Province, Nepal.
           </motion.p>
 
           <motion.div

@@ -89,13 +89,13 @@ export default function About() {
                 My Journey
               </h3>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                I'm Umesh Mehta, currently pursuing BCA 6th semester at Itahari Nauna College while working as a Full Stack Developer at <a href="https://www.digitalpathshalanepal.com/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">Digital Pathshala</a>. My journey in technology started with curiosity and has evolved into a career focused on building scalable applications and leading teams.
+                I'm Umesh Mehta, a Full Stack Developer based in <strong>Itahari, Koshi Province, Nepal</strong>. Currently pursuing BCA 6th semester at Itahari Nauna College while working as a Full Stack Developer at <a href="https://www.digitalpathshalanepal.com/" target="_blank" rel="noopener noreferrer" className="text-emerald-600 dark:text-emerald-400 hover:underline font-semibold">Digital Pathshala</a>. My journey in technology started with curiosity and has evolved into a career focused on building scalable applications and leading teams.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
                 Starting as an intern, I progressed through roles as Supervisor and Project Manager, where I gained experience leading teams and collaborating with international clients. This experience taught me the importance of clear communication, strategic planning, and delivering quality solutions.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Beyond my professional work, I'm actively involved with Code for Change NGO, serving as CR for Koshi Province (2024-2025) and currently as Admin Lead (2025-2026). I'm passionate about giving back to the community through mentorship, having guided over 150+ students in MERN stack development.
+                Beyond my professional work, I'm actively involved with Code for Change NGO, serving as CR for <strong>Koshi Province</strong> (2024-2025) and currently as Admin Lead (2025-2026). As a developer in <strong>Nepal</strong>, specifically in <strong>Itahari, Koshi Province</strong>, I'm passionate about giving back to the community through mentorship, having guided over 150+ students in MERN stack development.
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-300">
                 I believe in continuous learning, sharing knowledge, and building solutions that make a real impact. When I'm not coding, you'll find me mentoring students, contributing to open-source projects, or exploring new technologies.
@@ -137,12 +137,15 @@ export default function About() {
 
               <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                 <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Education
+                  Education & Location
                 </h4>
                 <div className="text-gray-600 dark:text-gray-300">
                   <p className="font-medium">BCA (Bachelor of Computer Applications)</p>
                   <p className="text-sm">6th Semester</p>
                   <p className="text-sm">Itahari Nauna College</p>
+                  <p className="text-sm mt-2">
+                    <span className="font-medium">Location:</span> Itahari, Koshi Province, Nepal
+                  </p>
                 </div>
               </div>
             </motion.div>
