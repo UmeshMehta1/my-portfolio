@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, useRef, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 
 interface SocketContextType {
@@ -22,36 +22,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   const [isConnected, setIsConnected] = useState(false);
   const [visitorCount, setVisitorCount] = useState(0);
   const [onlineUsers, setOnlineUsers] = useState(0);
-
-  // Track visitor via HTTP as fallback (ensures no visitors are lost)
-  useEffect(() => {
-    const trackVisitor = async () => {
-      try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL ||
-          'https://my-portfolio-72dq.onrender.com';
-        const sessionId = sessionStorage.getItem('sessionId') || `session-${Date.now()}-${Math.random()}`;
-        sessionStorage.setItem('sessionId', sessionId);
-
-        await fetch(`${apiUrl}/api/visitor/track`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            page: window.location.pathname,
-            referrer: document.referrer || '/',
-            sessionId: sessionId,
-          }),
-        });
-      } catch (error) {
-        console.error('Error tracking visitor:', error);
-      }
-    };
-
-    // Track on mount
-    trackVisitor();
-  }, []);
+  const visitorTrackedRef = useRef(false);
 
   useEffect(() => {
     const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || process.env.NEXT_PUBLIC_API_URL || 'https://my-portfolio-72dq.onrender.com';
@@ -62,9 +33,27 @@ export function SocketProvider({ children }: { children: ReactNode }) {
       reconnectionAttempts: 5,
     });
 
+    let httpFallbackTimeout: NodeJS.Timeout | null = null;
+
     newSocket.on('connect', () => {
       setIsConnected(true);
       console.log('Connected to server');
+      
+      // Clear HTTP fallback since socket connected
+      if (httpFallbackTimeout) {
+        clearTimeout(httpFallbackTimeout);
+        httpFallbackTimeout = null;
+      }
+      
+      // Send sessionId to server for deduplication
+      const sessionId = sessionStorage.getItem('sessionId') || `session-${Date.now()}-${Math.random()}`;
+      sessionStorage.setItem('sessionId', sessionId);
+      newSocket.emit('visitor-info', {
+        sessionId: sessionId,
+        page: window.location.pathname,
+        referrer: document.referrer || '/',
+      });
+      visitorTrackedRef.current = true;
     });
 
     newSocket.on('disconnect', () => {
@@ -86,7 +75,38 @@ export function SocketProvider({ children }: { children: ReactNode }) {
 
     setSocket(newSocket);
 
+    // Track visitor via HTTP only if socket doesn't connect within 3 seconds
+    httpFallbackTimeout = setTimeout(async () => {
+      if (!visitorTrackedRef.current && !newSocket.connected) {
+        try {
+          const apiUrl =
+            process.env.NEXT_PUBLIC_API_URL ||
+            'https://my-portfolio-72dq.onrender.com';
+          const sessionId = sessionStorage.getItem('sessionId') || `session-${Date.now()}-${Math.random()}`;
+          sessionStorage.setItem('sessionId', sessionId);
+
+          await fetch(`${apiUrl}/api/visitor/track`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              page: window.location.pathname,
+              referrer: document.referrer || '/',
+              sessionId: sessionId,
+            }),
+          });
+          visitorTrackedRef.current = true;
+        } catch (error) {
+          console.error('Error tracking visitor:', error);
+        }
+      }
+    }, 3000);
+
     return () => {
+      if (httpFallbackTimeout) {
+        clearTimeout(httpFallbackTimeout);
+      }
       newSocket.close();
     };
   }, []);
