@@ -3,6 +3,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { apiUrl } from '@/lib/api';
+import { copyToClipboard } from '@/utils/copyToClipboard';
+import { useToast } from './Toast';
+import Tooltip from './Tooltip';
 
 interface APIEndpoint {
   method: string;
@@ -66,6 +69,16 @@ export default function APIPlayground() {
   const [response, setResponse] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
+  const { showToast } = useToast();
+
+  const handleCopyCode = async (code: string) => {
+    const success = await copyToClipboard(code);
+    if (success) {
+      showToast('Code copied to clipboard!', 'success');
+    } else {
+      showToast('Failed to copy code', 'error');
+    }
+  };
 
   const testEndpoint = async () => {
     setIsLoading(true);
@@ -167,14 +180,42 @@ export default function APIPlayground() {
             {/* Code & Response */}
             <div className="space-y-3 sm:space-y-4">
               <div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">Example Code</h3>
-                <pre className="bg-gray-900 text-gray-100 p-3 sm:p-4 rounded-lg overflow-x-auto text-xs sm:text-sm">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Example Code</h3>
+                  <Tooltip content="Copy code">
+                    <button
+                      onClick={() => handleCopyCode(selectedEndpoint.example)}
+                      className="p-2 text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      aria-label="Copy code"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </button>
+                  </Tooltip>
+                </div>
+                <pre className="bg-gray-900 text-gray-100 p-3 sm:p-4 rounded-lg overflow-x-auto text-xs sm:text-sm relative">
                   <code className="break-words whitespace-pre-wrap">{selectedEndpoint.example}</code>
                 </pre>
               </div>
 
               <div>
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">Response</h3>
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">Response</h3>
+                  {(response || selectedEndpoint.response) && (
+                    <Tooltip content="Copy response">
+                      <button
+                        onClick={() => handleCopyCode(response || selectedEndpoint.response)}
+                        className="p-2 text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                        aria-label="Copy response"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </button>
+                    </Tooltip>
+                  )}
+                </div>
                 {error ? (
                   <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 p-3 sm:p-4 rounded-lg">
                     <p className="text-xs sm:text-sm text-red-800 dark:text-red-300 break-words">{error}</p>

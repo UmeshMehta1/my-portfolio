@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import Link from 'next/link';
+import ShareButtons from './ShareButtons';
 
 export default function Footer() {
   // Use state to avoid hydration mismatch
@@ -164,7 +165,7 @@ export default function Footer() {
 
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">Connect</h4>
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 mb-4">
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
@@ -177,6 +178,10 @@ export default function Footer() {
                   {getIcon(link.icon)}
                 </a>
               ))}
+            </div>
+            <div className="mt-4">
+              <p className="text-sm text-gray-400 mb-2">Share this portfolio</p>
+              <ShareButtons className="flex-wrap" />
             </div>
           </div>
         </div>

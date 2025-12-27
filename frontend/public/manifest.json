@@ -1,17 +1,43 @@
 {
-  "name": "My Portfolio",
+  "name": "Umesh Mehta - Portfolio",
   "short_name": "Portfolio",
-  "description": "Personal portfolio website showcasing projects, skills, and experience",
+  "description": "Full Stack Developer, Project Manager, and Tech Mentor. Building scalable applications and mentoring 150+ students.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
-  "theme_color": "#3b82f6",
+  "theme_color": "#10b981",
   "orientation": "portrait-primary",
+  "scope": "/",
   "icons": [
     {
-      "src": "/favicon.ico",
-      "sizes": "any",
-      "type": "image/x-icon"
+      "src": "/images/febicon.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/febicon.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["portfolio", "developer", "technology"],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "View my projects",
+      "url": "/#projects",
+      "icons": [{ "src": "/images/febicon.jpg", "sizes": "96x96" }]
+    },
+    {
+      "name": "Blog",
+      "short_name": "Blog",
+      "description": "Read my blog posts",
+      "url": "/blog",
+      "icons": [{ "src": "/images/febicon.jpg", "sizes": "96x96" }]
     }
   ]
 }

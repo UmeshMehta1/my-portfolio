@@ -5,6 +5,10 @@ import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useToast } from './Toast';
+import { copyToClipboard } from '@/utils/copyToClipboard';
+import Tooltip from './Tooltip';
+import GoogleReviewButton from './GoogleReviewButton';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -17,7 +21,16 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
+  const { showToast } = useToast();
+
+  const handleCopy = async (text: string, label: string) => {
+    const success = await copyToClipboard(text);
+    if (success) {
+      showToast(`${label} copied to clipboard!`, 'success');
+    } else {
+      showToast(`Failed to copy ${label}`, 'error');
+    }
+  };
 
   const {
     register,
@@ -42,13 +55,13 @@ export default function Contact() {
       });
 
       if (response.ok) {
-        setSubmitStatus('success');
+        showToast('Message sent successfully! I\'ll get back to you soon.', 'success');
         reset();
       } else {
-        setSubmitStatus('error');
+        showToast('Something went wrong. Please try again later.', 'error');
       }
     } catch (error) {
-      setSubmitStatus('error');
+      showToast('Failed to send message. Please try again later.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -85,11 +98,24 @@ export default function Contact() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
-                  <div>
+                  <div className="flex-1">
                     <p className="text-gray-600 dark:text-gray-400">Phone</p>
-                    <a href="tel:+9779817329620" className="text-emerald-600 dark:text-emerald-400 hover:underline">
-                      +977-981-7329620
-                    </a>
+                    <div className="flex items-center gap-2">
+                      <a href="tel:+9779817329620" className="text-emerald-600 dark:text-emerald-400 hover:underline">
+                        +977-981-7329620
+                      </a>
+                      <Tooltip content="Copy phone number">
+                        <button
+                          onClick={() => handleCopy('+977-981-7329620', 'Phone number')}
+                          className="p-1 text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                          aria-label="Copy phone number"
+                        >
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </button>
+                      </Tooltip>
+                    </div>
                   </div>
                 </div>
 
@@ -203,17 +229,9 @@ export default function Contact() {
                 )}
               </div>
 
-              {submitStatus === 'success' && (
-                <div className="p-4 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-lg">
-                  Message sent successfully! I'll get back to you soon.
-                </div>
-              )}
-
-              {submitStatus === 'error' && (
-                <div className="p-4 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300 rounded-lg">
-                  Something went wrong. Please try again later.
-                </div>
-              )}
+              <div className="flex justify-center pt-4">
+                <GoogleReviewButton />
+              </div>
 
               <button
                 type="submit"

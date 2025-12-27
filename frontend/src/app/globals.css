@@ -574,3 +574,70 @@ html {
     border-radius: 0 8px 8px 0;
   }
 }
+
+/* Print Stylesheet */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    line-height: 1.5;
+  }
+
+  /* Hide non-essential elements */
+  header,
+  footer,
+  nav,
+  .no-print,
+  button,
+  .back-to-top,
+  .scroll-progress,
+  .share-buttons,
+  .toast-container {
+    display: none !important;
+  }
+
+  /* Page breaks */
+  section {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+
+  h1, h2, h3 {
+    page-break-after: avoid;
+  }
+
+  /* Links */
+  a {
+    text-decoration: underline;
+    color: black !important;
+  }
+
+  a[href^="http"]:after {
+    content: " (" attr(href) ")";
+    font-size: 10pt;
+    color: #666;
+  }
+
+  /* Resume specific styles */
+  .resume-section {
+    margin-bottom: 1.5em;
+  }
+
+  /* Ensure good print layout */
+  @page {
+    margin: 2cm;
+  }
+
+  /* Avoid breaking inside important sections */
+  .experience-item,
+  .project-item,
+  .education-item {
+    page-break-inside: avoid;
+  }
+}

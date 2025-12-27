@@ -10,13 +10,18 @@ import Footer from '@/components/Footer';
 import SkillsRadar from '@/components/SkillsRadar';
 import TechStackTimeline from '@/components/TechStackTimeline';
 import APIPlayground from '@/components/APIPlayground';
+import ScrollProgress from '@/components/ScrollProgress';
+import BackToTop from '@/components/BackToTop';
 import { useScrollAnimations } from '@/components/ScrollAnimations';
+import { useKeyboardShortcuts } from '@/hooks/useKeyboardShortcuts';
 
 export default function Home() {
   useScrollAnimations();
+  useKeyboardShortcuts();
 
   return (
     <main className="min-h-screen">
+      <ScrollProgress />
       <Header />
       <Hero />
       <About />
@@ -27,6 +32,7 @@ export default function Home() {
       <APIPlayground />
       <Contact />
       <Footer />
+      <BackToTop />
     </main>
   );
 }
