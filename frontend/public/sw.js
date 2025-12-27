@@ -43,6 +43,12 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip non-HTTP/HTTPS requests (chrome-extension, data:, blob:, etc.)
+  const url = new URL(event.request.url);
+  if (!url.protocol.startsWith('http')) {
+    return;
+  }
+
   // Skip API calls
   if (event.request.url.includes('/api/')) {
     return;
@@ -58,12 +64,26 @@ self.addEventListener('fetch', (event) => {
             return response;
           }
 
+          // Don't cache chrome-extension or other non-http schemes
+          const responseUrl = new URL(response.url);
+          if (!responseUrl.protocol.startsWith('http')) {
+            return response;
+          }
+
           // Clone the response
           const responseToCache = response.clone();
 
           caches.open(CACHE_NAME)
             .then((cache) => {
-              cache.put(event.request, responseToCache);
+              // Double-check the request URL before caching
+              const requestUrl = new URL(event.request.url);
+              if (requestUrl.protocol.startsWith('http')) {
+                cache.put(event.request, responseToCache);
+              }
+            })
+            .catch((err) => {
+              // Silently fail cache operations for unsupported schemes
+              console.warn('Cache put failed (unsupported scheme):', err);
             });
 
           return response;

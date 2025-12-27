@@ -21,32 +21,34 @@ const skillsData: SkillData[] = [
 
 export default function SkillsRadar() {
   return (
-    <div className="w-full h-96 bg-white dark:bg-gray-800 rounded-lg p-6">
+    <div className="w-full bg-white dark:bg-gray-800 rounded-lg p-6">
       <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
         Skills Radar Chart
       </h3>
-      <ResponsiveContainer width="100%" height="100%">
-        <RadarChart data={skillsData}>
-          <PolarGrid stroke="#e5e7eb" />
-          <PolarAngleAxis 
-            dataKey="skill" 
-            tick={{ fill: '#6b7280', fontSize: 12 }}
-          />
-          <PolarRadiusAxis 
-            angle={90} 
-            domain={[0, 100]} 
-            tick={{ fill: '#6b7280', fontSize: 10 }}
-          />
-          <Radar
-            name="Skill Level"
-            dataKey="level"
-            stroke="#3b82f6"
-            fill="#3b82f6"
-            fillOpacity={0.6}
-          />
-          <Legend />
-        </RadarChart>
-      </ResponsiveContainer>
+      <div className="w-full" style={{ height: '384px', minHeight: '384px' }}>
+        <ResponsiveContainer width="100%" height="100%" minHeight={384}>
+          <RadarChart data={skillsData}>
+            <PolarGrid stroke="#e5e7eb" />
+            <PolarAngleAxis 
+              dataKey="skill" 
+              tick={{ fill: '#6b7280', fontSize: 12 }}
+            />
+            <PolarRadiusAxis 
+              angle={90} 
+              domain={[0, 100]} 
+              tick={{ fill: '#6b7280', fontSize: 10 }}
+            />
+            <Radar
+              name="Skill Level"
+              dataKey="level"
+              stroke="#3b82f6"
+              fill="#3b82f6"
+              fillOpacity={0.6}
+            />
+            <Legend />
+          </RadarChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
