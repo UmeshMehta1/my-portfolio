@@ -118,6 +118,17 @@ export const metadata: Metadata = {
     yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
     yahoo: process.env.NEXT_PUBLIC_YAHOO_VERIFICATION,
   },
+  icons: {
+    icon: [
+      { url: "/images/febicon.jpg", type: "image/jpeg" },
+      { url: "/images/febicon.jpg", sizes: "32x32", type: "image/jpeg" },
+      { url: "/images/febicon.jpg", sizes: "16x16", type: "image/jpeg" },
+    ],
+    apple: [
+      { url: "/images/febicon.jpg", type: "image/jpeg" },
+    ],
+    shortcut: "/images/febicon.jpg",
+  },
 };
 
 export default function RootLayout({
@@ -152,8 +163,8 @@ export default function RootLayout({
             `,
           }}
         />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" href="/images/febicon.jpg" type="image/jpeg" />
+        <link rel="apple-touch-icon" href="/images/febicon.jpg" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#10b981" />
         
